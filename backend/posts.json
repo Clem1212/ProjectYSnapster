@@ -1,0 +1,256 @@
+[
+    {
+        "id": 1,
+        "photo": "uploads\/photo1.png",
+        "caption": "My cool photo",
+        "username": "user1",
+        "timestamp": 1680000000
+    },
+    {
+        "id": 2,
+        "photo": "backend\/uploads\/photo_6826b37a480e55.63965961.png",
+        "caption": "kn",
+        "created_at": "2025-05-16 03:39:38"
+    },
+    {
+        "id": 3,
+        "photo": "backend\/uploads\/photo_6826b3ab396874.37784278.png",
+        "caption": "mkn",
+        "created_at": "2025-05-16 03:40:27"
+    },
+    {
+        "id": 4,
+        "photo": "backend\/uploads\/photo_6826b4202c8f07.83549403.png",
+        "caption": "x",
+        "created_at": "2025-05-16 03:42:24"
+    },
+    {
+        "id": 5,
+        "photo": "backend\/uploads\/photo_6826b49d2f4729.71412169.png",
+        "caption": "sxs",
+        "created_at": "2025-05-16 03:44:29"
+    },
+    {
+        "id": 6,
+        "username": "Anonymous",
+        "image": "uploads\/img_6826b4fc7aec6.png",
+        "caption": "eee",
+        "likes": [],
+        "comments": []
+    },
+    {
+        "id": 7,
+        "username": "Anonymous",
+        "image": "uploads\/img_6826b59ce9b5e.png",
+        "caption": "hbm",
+        "likes": [
+            1
+        ],
+        "comments": [
+            {
+                "userId": 1,
+                "username": "Cl3m",
+                "comment": "cool"
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "username": "Anonymous",
+        "image": "uploads\/img_6826b784246d7.png",
+        "caption": "wassup",
+        "likes": [
+            1
+        ],
+        "comments": [
+            {
+                "userId": 1,
+                "username": "Cl3m",
+                "comment": "cool"
+            },
+            {
+                "userId": 1,
+                "username": "Cl3m",
+                "comment": "cool"
+            }
+        ]
+    },
+    {
+        "id": 1747367941,
+        "username": "guest",
+        "image": "uploads\/photo_1747367941.png",
+        "caption": "bjn",
+        "retakes": 1,
+        "likes": [],
+        "comments": [
+            {
+                "userId": 1,
+                "username": "Cl3m",
+                "comment": "e"
+            },
+            {
+                "userId": 1,
+                "username": "Cl3m",
+                "comment": "e"
+            }
+        ]
+    },
+    {
+        "id": 10,
+        "username": "Cl3m",
+        "image": "uploads\/photo_6827e34bdef377.60503299.png",
+        "caption": "yoo",
+        "retakes": 1,
+        "likes": [],
+        "comments": []
+    },
+    {
+        "id": 11,
+        "username": "Cl3m",
+        "image": "uploads\/photo_6827e3d7293579.26291255.png",
+        "caption": "f",
+        "retakes": 1,
+        "likes": [
+            1
+        ],
+        "comments": []
+    },
+    {
+        "id": 12,
+        "username": "Cl3m",
+        "image": "uploads\/photo_6827e41e6bc7d1.66191660.png",
+        "caption": "white",
+        "retakes": 1,
+        "likes": [
+            1
+        ],
+        "comments": []
+    },
+    {
+        "id": 13,
+        "username": "Cl3m",
+        "image": "uploads\/photo_6827eb07637210.42697762.png",
+        "caption": "black",
+        "retakes": 1,
+        "likes": [],
+        "comments": []
+    },
+    {
+        "id": 14,
+        "username": "Cl3m",
+        "image": "uploads\/photo_6827ed6d833578.10977362.png",
+        "caption": "real test",
+        "retakes": 1,
+        "likes": [
+            1
+        ],
+        "comments": [
+            {
+                "userId": 1,
+                "username": "Cl3m",
+                "comment": "hi"
+            },
+            {
+                "userId": 1,
+                "username": "Cl3m",
+                "comment": "hi"
+            }
+        ]
+    },
+    {
+        "id": 15,
+        "username": "Cl3m",
+        "image": "uploads\/photo_6827ed7c8cb959.47741942.png",
+        "caption": "real test",
+        "retakes": 1,
+        "likes": [],
+        "comments": []
+    },
+    {
+        "id": 16,
+        "username": "Cl3m",
+        "image": "uploads\/photo_6827ed7dd12151.16633266.png",
+        "caption": "real test",
+        "retakes": 1,
+        "likes": [
+            1
+        ],
+        "comments": []
+    },
+    {
+        "id": 17,
+        "username": "Cl3m",
+        "image": "uploads\/photo_6827ed953bc6f9.12990770.png",
+        "caption": "ss",
+        "retakes": 1,
+        "likes": [],
+        "comments": []
+    },
+    {
+        "id": 18,
+        "username": "Cl3m",
+        "image": "uploads\/photo_6827ee6b479530.97065643.png",
+        "caption": "realll",
+        "retakes": 1,
+        "likes": [],
+        "comments": []
+    },
+    {
+        "id": 19,
+        "username": "Clement2",
+        "image": "uploads\/photo_6827fd8fbdcf47.12971534.png",
+        "caption": "blacky",
+        "retakes": 1,
+        "likes": {
+            "1": 2
+        },
+        "comments": [
+            {
+                "userId": 2,
+                "username": "Clement2",
+                "comment": "cool"
+            },
+            {
+                "userId": 1,
+                "username": "Cl3m",
+                "comment": "tuff"
+            }
+        ]
+    },
+    {
+        "id": 20,
+        "username": "Cl3m",
+        "image": "uploads\/photo_68292dc2e23ba2.56930770.png",
+        "caption": "e",
+        "retakes": 1,
+        "likes": [],
+        "comments": []
+    },
+    {
+        "id": 21,
+        "username": "Clement2",
+        "image": "uploads\/photo_682a355469ec23.90809313.png",
+        "caption": "w",
+        "retakes": 1,
+        "likes": [],
+        "comments": []
+    },
+    {
+        "id": 22,
+        "username": "Bobby",
+        "image": "uploads\/photo_682a38ec8ad092.66124400.png",
+        "caption": "obs",
+        "retakes": 1,
+        "likes": [],
+        "comments": []
+    },
+    {
+        "id": 23,
+        "username": "Cl3m",
+        "image": "uploads\/photo_682ced60c69db1.85598069.png",
+        "caption": "bruh",
+        "retakes": 1,
+        "likes": [],
+        "comments": []
+    }
+]

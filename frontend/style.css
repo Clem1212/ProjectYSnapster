@@ -1,0 +1,491 @@
+/* BeReal/Instagram Clone CSS */
+/* Base Reset */
+
+
+/* Typography /
+body {
+font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+color: #262626;
+line-height: 1.5;
+background-color: #fafafa;
+padding-bottom: 60px; / Space for bottom navigation */
+
+h1, h2, h3, h4 {
+font-weight: 600;
+}
+h2 {
+font-size: 18px;
+margin-bottom: 16px;
+}
+a {
+color: #0095f6;
+text-decoration: none;
+}
+/* Layout */
+.container {
+max-width: 470px;
+margin: 0 auto;
+padding: 12px;
+}
+/* Header */
+.app-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 12px 16px;
+border-bottom: 1px solid #dbdbdb;
+background-color: white;
+position: sticky;
+top: 0;
+z-index: 100;
+}
+/* Logo styles for Instagram mode */
+.instagram-logo {
+font-family: 'Grand Hotel', cursive, Arial, sans-serif;
+font-size: 24px;
+font-weight: 700;
+}
+/* Logo styles for BeReal mode */
+.bereal-logo {
+font-weight: 700;
+font-size: 22px;
+}
+/* Theme toggle */
+.theme-toggle {
+position: fixed;
+top: 12px;
+right: 16px;
+background-color: rgba(255, 255, 255, 0.9);
+border: 1px solid #dbdbdb;
+border-radius: 20px;
+padding: 6px 12px;
+font-size: 12px;
+cursor: pointer;
+z-index: 1000;
+display: flex;
+align-items: center;
+gap: 5px;
+}
+/* BeReal notification */
+.bereal-notification {
+background-color: #ff3250;
+color: white;
+text-align: center;
+padding: 12px;
+margin-bottom: 16px;
+border-radius: 8px;
+font-weight: 600;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.countdown {
+background-color: rgba(0, 0, 0, 0.2);
+border-radius: 4px;
+padding: 2px 8px;
+font-weight: 700;
+}
+/* Forms */
+input, button, textarea {
+font-family: inherit;
+font-size: 14px;
+}
+input[type="text"],
+input[type="password"],
+textarea {
+width: 100%;
+padding: 12px;
+border: 1px solid #dbdbdb;
+border-radius: 4px;
+background-color: #fafafa;
+margin-bottom: 12px;
+}
+input[type="text"]:focus,
+input[type="password"]:focus,
+textarea:focus {
+outline: none;
+border-color: #a8a8a8;
+}
+button {
+background-color: #0095f6;
+color: white;
+border: none;
+padding: 10px 16px;
+border-radius: 4px;
+font-weight: 600;
+cursor: pointer;
+width: 100%;
+margin: 8px 0;
+}
+button:disabled {
+opacity: 0.7;
+cursor: not-allowed;
+}
+/* Camera capture button */
+#captureBtn {
+background-color: white;
+color: #262626;
+border: 1px solid #dbdbdb;
+border-radius: 8px;
+margin: 16px 0;
+}
+/* Login/Signup Page */
+.auth-container {
+max-width: 350px;
+margin: 40px auto;
+padding: 20px;
+background-color: white;
+border: 1px solid #dbdbdb;
+border-radius: 3px;
+text-align: center;
+}
+.auth-logo {
+font-family: 'Grand Hotel', cursive, Arial, sans-serif;
+font-size: 42px;
+margin-bottom: 20px;
+}
+.auth-divider {
+display: flex;
+align-items: center;
+margin: 20px 0;
+color: #8e8e8e;
+}
+.auth-divider::before,
+.auth-divider::after {
+content: '';
+flex: 1;
+border-bottom: 1px solid #dbdbdb;
+}
+.auth-divider span {
+padding: 0 10px;
+font-size: 13px;
+font-weight: 600;
+}
+.message {
+padding: 8px 0;
+font-size: 14px;
+}
+/* Post styling */
+.post {
+background-color: white;
+border: 1px solid #dbdbdb;
+border-radius: 8px;
+margin-bottom: 16px;
+overflow: hidden;
+}
+.post-header {
+display: flex;
+align-items: center;
+padding: 12px;
+}
+.user-avatar {
+width: 32px;
+height: 32px;
+border-radius: 50%;
+background-color: #efefef;
+margin-right: 10px;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #8e8e8e;
+font-weight: bold;
+overflow: hidden;
+}
+.user-avatar img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+.username {
+font-weight: 600;
+font-size: 14px;
+}
+.post-time {
+margin-left: auto;
+font-size: 12px;
+color: #8e8e8e;
+}
+.post-image-container {
+position: relative;
+width: 100%;
+background-color: #000;
+}
+.post-image {
+width: 100%;
+display: block;
+}
+/* BeReal style with front camera overlay */
+.front-camera {
+position: absolute;
+top: 12px;
+right: 12px;
+width: 120px;
+height: 160px;
+background-color: #333;
+border: 2px solid #fff;
+border-radius: 8px;
+overflow: hidden;
+z-index: 10;
+}
+.retake-badge {
+position: absolute;
+bottom: 12px;
+right: 12px;
+background-color: rgba(0, 0, 0, 0.6);
+color: white;
+padding: 4px 8px;
+border-radius: 12px;
+font-size: 12px;
+}
+.late-badge {
+position: absolute;
+top: 12px;
+left: 12px;
+background-color: rgba(0, 0, 0, 0.6);
+color: white;
+padding: 4px 8px;
+border-radius: 12px;
+font-size: 12px;
+}
+.post-actions {
+display: flex;
+padding: 8px 12px;
+}
+.action-button {
+margin-right: 16px;
+background: none;
+border: none;
+padding: 0;
+width: auto;
+font-size: 24px;
+color: #262626;
+}
+.post-caption {
+padding: 0 12px 12px;
+font-size: 14px;
+}
+.post-likes {
+padding: 0 12px 4px;
+font-weight: 600;
+font-size: 14px;
+}
+.comment-section {
+border-top: 1px solid #efefef;
+padding: 8px 12px;
+}
+.comment {
+font-size: 14px;
+margin-bottom: 4px;
+}
+/* Upload Page */
+#video {
+width: 100%;
+background-color: #000;
+border-radius: 8px;
+overflow: hidden;
+border: none;
+}
+#preview {
+width: 100%;
+border-radius: 8px;
+border: none;
+margin-top: 16px;
+}
+#retakeCount {
+font-weight: 600;
+}
+/* BeReal style capture button */
+.bereal-capture-btn {
+width: 70px;
+height: 70px;
+border-radius: 50%;
+background-color: white;
+border: none;
+position: relative;
+margin: 20px auto;
+display: block;
+cursor: pointer;
+}
+
+@media screen and (max-width: 684px) {
+  .container {
+    display: none;
+  }
+}
+
+.bereal-capture-btn::after {
+content: '';
+position: absolute;
+top: 4px;
+left: 4px;
+right: 4px;
+bottom: 4px;
+border-radius: 50%;
+border: 2px solid #262626;
+}
+/* Feed styling */
+.feed {
+padding-bottom: 60px;
+}
+/* Instagram Stories */
+.stories-container {
+display: flex;
+overflow-x: auto;
+padding: 8px 0;
+background-color: white;
+border-bottom: 1px solid #dbdbdb;
+margin-bottom: 16px;
+}
+.story {
+display: flex;
+flex-direction: column;
+align-items: center;
+margin-right: 15px;
+width: 70px;
+}
+.story-avatar {
+width: 56px;
+height: 56px;
+border-radius: 50%;
+padding: 2px;
+background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+margin-bottom: 4px;
+}
+.story-avatar-inner {
+background-color: white;
+border-radius: 50%;
+width: 100%;
+height: 100%;
+padding: 2px;
+display: flex;
+align-items: center;
+justify-content: center;
+overflow: hidden;
+}
+.story-username {
+font-size: 12px;
+max-width: 64px;
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+text-align: center;
+}
+/* Bottom Navigation */
+.bottom-nav {
+position: fixed;
+bottom: 0;
+left: 0;
+right: 0;
+background-color: white;
+border-top: 1px solid #dbdbdb;
+display: flex;
+justify-content: space-around;
+padding: 10px 0;
+z-index: 100;
+}
+.nav-item {
+font-size: 24px;
+color: #262626;
+}
+/* Message styles */
+#msg {
+padding: 8px 0;
+font-size: 14px;
+}
+.success-message {
+color: #4bb543;
+}
+.error-message {
+color: #ff3333;
+}
+/* BeReal dark theme */
+.bereal-theme {
+background-color: #000;
+color: #fff;
+}
+.bereal-theme .app-header {
+background-color: #000;
+border-bottom-color: #333;
+}
+.bereal-theme .post {
+background-color: #121212;
+border-color: #333;
+}
+.bereal-theme input[type="text"],
+.bereal-theme input[type="password"],
+.bereal-theme textarea {
+background-color: #1e1e1e;
+border-color: #333;
+color: #fff;
+}
+.bereal-theme .bottom-nav {
+background-color: #000;
+border-top-color: #333;
+}
+.bereal-theme .nav-item,
+.bereal-theme .action-button {
+color: #fff;
+}
+.bereal-theme .username {
+color: #fff;
+}
+.bereal-theme #captureBtn {
+background-color: #222;
+color: #fff;
+border-color: #444;
+}
+.bereal-theme button {
+background-color: #ff3250;
+}
+.bereal-theme .bereal-logo {
+color: #fff;
+}
+.bereal-theme .post-time,
+.bereal-theme .story-username {
+color: #a8a8a8;
+}
+/* Loading state */
+.loading {
+display: flex;
+justify-content: center;
+padding: 20px 0;
+}
+.spinner {
+width: 40px;
+height: 40px;
+border: 4px solid #f3f3f3;
+border-top: 4px solid #0095f6;
+border-radius: 50%;
+animation: spin 1s linear infinite;
+}
+@keyframes spin {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
+/* Utility classes */
+.hidden {
+display: none;
+}
+.flex {
+display: flex;
+}
+.items-center {
+align-items: center;
+}
+.justify-between {
+justify-content: space-between;
+}
+.mt-4 {
+margin-top: 16px;
+}
+.mb-4 {
+margin-bottom: 16px;
+}
+/* Responsive adjustments */
+@media (min-width: 768px) {
+.container {
+max-width: 600px;
+}
+}
+/* Font Awesome Icon Support */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');

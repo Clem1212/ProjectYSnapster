@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snapster</title>
+    <link rel="icon" type="image/x-icon" href="/image/logo-removebg-preview.png">
+    <link rel="stylesheet" href="/frontend/app.js">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    /* Modern Social Media App - Feed Page */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #fafafa;
+      color: #262626;
+      line-height: 1.5;
+      padding-bottom: 60px; /* Space for mobile nav */
+    }
+    
+    /* Instagram Light Theme */
+    .instagram-theme {
+      --bg-color: #fafafa;
+      --card-bg: #ffffff;
+      --text-color: #262626;
+      --text-secondary: #8e8e8e;
+      --border-color: #dbdbdb;
+      --primary-color: #0095f6;
+      --like-color: #ed4956;
+      --header-bg: #ffffff;
+    }
+    
+    /* BeReal Dark Theme */
+    .bereal-theme {
+      --bg-color: #000000;
+      --card-bg: #121212;
+      --text-color: #ffffff;
+      --text-secondary: #a8a8a8;
+      --border-color: #333333;
+      --primary-color: #FF375F;
+      --like-color: #FF375F;
+      --header-bg: #000000;
+    }
+    
+    /* Apply BeReal theme by default */
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+    
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+    
+    /* Header */
+    .app-header {
+      position: sticky;
+      top: 0;
+      background-color: var(--header-bg);
+      border-bottom: 1px solid var(--border-color);
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-color);
+      text-decoration: none;
+    }
+    
+    .header-icons {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .header-icon {
+      font-size: 20px;
+      color: var(--text-color);
+      cursor: pointer;
+    }
+    
+    /* Feed posts */
+    .feed-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding-top: 20px;
+    }
+    
+    .post {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    
+    .post-header {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .post-user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: #efefef;
+      margin-right: 10px;
+      overflow: hidden;
+    }
+    
+    .post-user-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .post-user-info {
+      flex-grow: 1;
+    }
+    
+    .post-user-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text-color);
+    }
+    
+    .post-time {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    
+    .post-more {
+      color: var(--text-color);
+      font-size: 20px;
+      cursor: pointer;
+    }
+    
+    .post-image-container {
+      position: relative;
+      width: 100%;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+    }
+    
+    .post-image {
+      width: 100%;
+      display: block;
+      max-height: 600px;
+      object-fit: contain;
+    }
+    
+    .retake-badge {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    .post-actions {
+      display: flex;
+      padding: 8px 16px;
+      border-top: 1px solid var(--border-color);
+    }
+    
+    .post-action {
+      margin-right: 16px;
+      color: var(--text-color);
+      font-size: 24px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      display: flex;
+      align-items: center;
+      padding: 0;
+    }
+    
+    .post-action.liked {
+      color: var(--like-color);
+    }
+    
+    .post-action span {
+      font-size: 14px;
+      margin-left: 6px;
+      font-weight: 500;
+    }
+    
+    .post-caption {
+      padding: 12px 16px;
+      font-size: 14px;
+      color: var(--text-color);
+    }
+    
+    .post-caption-username {
+      font-weight: 600;
+      margin-right: 5px;
+    }
+    
+    .comment-section {
+      padding: 0 16px 16px;
+      border-top: 1px solid var(--border-color);
+    }
+    
+    .comment-header {
+      padding: 12px 0;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text-color);
+    }
+    
+    .comment {
+      padding: 6px 0;
+      font-size: 14px;
+      color: var(--text-color);
+    }
+    
+    .comment-username {
+      font-weight: 600;
+      margin-right: 4px;
+    }
+    
+    .add-comment {
+      display: flex;
+      padding-top: 12px;
+      align-items: center;
+    }
+    
+    .comment-input {
+      flex: 1;
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 8px 16px;
+      background-color: transparent;
+      color: var(--text-color);
+      font-size: 14px;
+    }
+    
+    .comment-input:focus {
+      outline: none;
+      border-color: var(--text-secondary);
+    }
+    
+    .comment-button {
+      margin-left: 8px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 24px;
+      padding: 8px 16px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    
+    /* BeReal notification */
+    .bereal-notification {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--primary-color);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      max-width: 90%;
+    }
+    
+    .notification-icon {
+      font-size: 18px;
+      margin-right: 8px;
+    }
+    
+    .notification-text {
+      font-weight: 600;
+    }
+    
+    .countdown {
+      margin-left: 8px;
+      font-weight: 700;
+      color: white;
+    }
+    
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-around;
+      background-color: var(--header-bg);
+      border-top: 1px solid var(--border-color);
+      padding: 10px 0;
+      z-index: 100;
+    }
+    
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 12px;
+    }
+    
+    .nav-icon {
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+    
+    /* Page specific elements */
+    .page-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-color);
+      padding: 16px;
+      text-align: center;
+    }
+    
+    .action-link {
+      display: inline-block;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 24px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-bottom: 20px;
+      transition: background-color 0.2s;
+    }
+    
+    .action-link:hover {
+      background-color: var(--primary-color);
+      opacity: 0.9;
+    }
+    
+    .logout-btn {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background-color: transparent;
+      color: var(--text-color);
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 110;
+    }
+    
+    /* Toggle theme button */
+    .theme-switch {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      margin-left: auto;
+      margin-right: 16px;
+    }
+    
+    .theme-icon {
+      font-size: 18px;
+      color: var(--text-color);
+    }
+    
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-secondary);
+    }
+    
+    .empty-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+    
+    .empty-text {
+      font-size: 16px;
+      margin-bottom: 24px;
+    }
+    
+    /* Loading spinner */
+    .loading {
+      display: flex;
+      justify-content: center;
+      padding: 40px 0;
+    }
+    
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      border-left-color: var(--primary-color);
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Media queries */
+    @media (min-width: 768px) {
+      .bottom-nav {
+        display: none;
+      }
+      
+      body {
+        padding-bottom: 0;
+      }
+    }
+    
+
+
+  </style>
+</head>
+<body class="bereal-theme">
+
+  <div class="app-header">
+    <div class="header-content">
+      <div class="logo">  <img id="logo-img" src="/image/border2.png" style="width: 120px; height: auto;">
+</div>
+      <div class="theme-switch" id="themeSwitch">
+        <i class="fa-solid fa-sun theme-icon"></i>
+      </div>
+      <!-- icons-->
+      <div class="header-icons">
+        <a href="/frontend/profile.html" class="nav-item">
+  <i class="fa-solid fa-user header-icon"></i>
+        </a>
+      
+         <a href="/frontend/chat_app.php" class="nav-item">
+        <i class="fa-solid fa-message" style="font-size: 20px;"></i>
+        </a>
+        
+      </div>
+    </div>
+  </div>
+  
+  <div class="container">
+    <button id="logoutBtn" class="logout-btn">
+      <i class="fa-solid fa-right-from-bracket" style="font-size: 25px;"></i>
+    </button>
+    
+    <div class="page-title"><img id="logo-img" src="/image/logo2.png" style="width: 200px; height: auto;"></div>
+    <!--<img id="logo-img" src="/image/border2.png" style="width: 200px; height: auto;">-->
+    
+    <a href="upload.html" class="action-link">
+      <i class="fa-solid fa-camera"></i> Upload Post
+    </a>
+    
+    <div id="feed" class="feed-container">
+      <!-- Feed content will be dynamically inserted here -->
+      <div class="loading">
+        <div class="spinner"></div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="bottom-nav">
+    <a href="feed.html" class="nav-item">
+      <i class="fa-solid fa-home nav-icon"></i>
+      <span>Home</span>
+    </a>
+    
+    <a href="upload.html" class="nav-item">
+      <i class="fa-solid fa-square-plus nav-icon"></i>
+      <span>Upload</span>
+    </a>
+    <a href="chat_app.php" class="nav-item">
+      <i class="fa-solid fa-bell nav-icon"></i>
+      <span>Alerts</span>
+    </a>
+    <a href="/frontend/profile.html" class="nav-item">
+      <i class="fa-solid fa-user nav-icon"></i>
+      <span>Profile</span>
+    </a>
+  </div>
+<style>
+
+</style>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+  // Theme switcher setup
+  const savedTheme = localStorage.getItem('theme');
+  const body = document.body;
+  const themeSwitch = document.getElementById('themeSwitch');
+  const logoImg = document.getElementById('logo-img');
+
+  if (savedTheme === 'instagram') {
+    body.classList.add('instagram-theme');
+    if (themeSwitch) themeSwitch.innerHTML = '<i class="fa-solid fa-moon theme-icon"></i>';
+    if (logoImg) logoImg.src = '/image/border1.png';
+  } else {
+    body.classList.add('bereal-theme');
+    if (themeSwitch) themeSwitch.innerHTML = '<i class="fa-solid fa-sun theme-icon"></i>';
+    if (logoImg) logoImg.src = '/image/border2.png';
+  }
+
+  if (themeSwitch) {
+    themeSwitch.addEventListener('click', () => {
+      if (body.classList.contains('bereal-theme')) {
+        body.classList.replace('bereal-theme', 'instagram-theme');
+        themeSwitch.innerHTML = '<i class="fa-solid fa-moon theme-icon"></i>';
+        if (logoImg) logoImg.src = '/image/border1.png';
+        localStorage.setItem('theme', 'instagram');
+      } else {
+        body.classList.replace('instagram-theme', 'bereal-theme');
+        themeSwitch.innerHTML = '<i class="fa-solid fa-sun theme-icon"></i>';
+        if (logoImg) logoImg.src = '/image/border2.png';
+        localStorage.setItem('theme', 'bereal');
+      }
+    });
+  }
+
+  // User Authentication & Session Management
+  function getCurrentUser() {
+    // Check for PHP session cookie first, if your app uses PHP sessions
+    const sessionCookie = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('PHPSESSID='));
+      
+    // First try to get username from sessionStorage which is more secure
+    // for session-based authentication
+    const username = localStorage.getItem('username');
+    
+    // If username exists and we have a session cookie, return the username
+    if (username && sessionCookie) {
+      return username;
+    } else if (username) {
+      // We have a username but no session - user might need to re-login
+      console.log('Warning: Username found but no active session');
+      return username;
+    }
+    
+    return 'guest';
+  }
+  
+  function getUserProfilePic() {
+    // Get profile picture from localStorage or use placeholder
+    return localStorage.getItem('profilePic') || '/api/placeholder/32/32';
+  }
+
+  // Logout button setup with proper session handling
+  const logoutBtn = document.getElementById('logoutBtn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', async () => {
+      try {
+        // Call server-side logout endpoint to destroy PHP session
+        const response = await fetch('../backend/logout.php');
+        const result = await response.json();
+        
+        // Clear any auth data from localStorage
+        localStorage.removeItem('username');
+        
+        // Redirect to login page
+        window.location.href = '../frontend/index.html';
+      } catch (error) {
+        console.error('Logout error:', error);
+        // Just redirect anyway if the backend call fails
+        localStorage.removeItem('username');
+        window.location.href = '../frontend/index.html';
+      }
+    });
+  }
+
+  // BeReal Notification System
+  let berealActive = false;
+  let nextBeRealTime = null;
+  let notificationElement = null;
+
+  function scheduleNextBeReal() {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    const hour = Math.floor(Math.random() * (22 - 8 + 1)) + 8;
+    const minute = Math.floor(Math.random() * 60);
+
+    nextBeRealTime = new Date(today.getTime());
+    nextBeRealTime.setHours(hour, minute, 0, 0);
+
+    if (nextBeRealTime <= now) {
+      nextBeRealTime.setDate(nextBeRealTime.getDate() + 1);
+    }
+    console.log("Next BeReal notification at:", nextBeRealTime);
+  }
+
+  function showBeRealNotification() {
+    if (notificationElement) {
+      notificationElement.remove();
+    }
+    notificationElement = document.createElement('div');
+    notificationElement.className = 'bereal-notification';
+    notificationElement.innerHTML = `
+      <i class="fa-solid fa-camera notification-icon"></i>
+      <span class="notification-text">It's time to Snapster!</span>
+      <span class="countdown" id="bereal-countdown">2:00</span>
+    `;
+    document.body.appendChild(notificationElement);
+
+    let seconds = 120;
+    const countdownElement = document.getElementById('bereal-countdown');
+
+    const countdownInterval = setInterval(() => {
+      seconds--;
+      const minutes = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      if (countdownElement) countdownElement.textContent = `${minutes}:${secs.toString().padStart(2, '0')}`;
+
+      if (seconds <= 0) {
+        clearInterval(countdownInterval);
+        if (notificationElement) {
+          notificationElement.remove();
+          notificationElement = null;
+        }
+        berealActive = false;
+        scheduleNextBeReal();
+      }
+    }, 1000);
+  }
+
+  function startBeRealCycle() {
+    scheduleNextBeReal();
+
+    setInterval(() => {
+      if (!berealActive) {
+        const now = new Date();
+        if (now >= nextBeRealTime) {
+          berealActive = true;
+          showBeRealNotification();
+        }
+      }
+    }, 1000);
+  }
+
+  startBeRealCycle();
+
+  // Feed fetching and rendering with proper data handling
+  async function fetchFeed() {
+    try {
+      const feed = document.getElementById('feed');
+      if (!feed) return;
+      
+      // Show loading spinner
+      feed.innerHTML = `
+        <div class="loading">
+          <div class="spinner"></div>
+        </div>
+      `;
+      
+      // Fetch posts from backend
+      const res = await fetch('../backend/feed.php');
+      const posts = await res.json();
+      
+      // Fetch likes and comments separately for more reliable data
+      let likes = {};
+      let comments = {};
+      
+      try {
+        const likesRes = await fetch('../backend/likes.json');
+        likes = await likesRes.json();
+      } catch (e) {
+        console.log('No likes data available or error fetching likes');
+        likes = {};
+      }
+      
+      try {
+        const commentsRes = await fetch('../backend/comments.json');
+        comments = await commentsRes.json();
+      } catch (e) {
+        console.log('No comments data available or error fetching comments');
+        comments = {};
+      }
+      
+      if (posts.length === 0) {
+        feed.innerHTML = `
+          <div class="empty-state">
+            <i class="fa-solid fa-camera-retro empty-icon"></i>
+            <p class="empty-text">No posts yet! Be the first to share.</p>
+            <a href="upload.html" class="action-link">Upload Post</a>
+          </div>`;
+        return;
+      }
+
+      feed.innerHTML = '';
+      const currentUser = getCurrentUser();
+
+      posts.reverse().forEach(post => {
+        const postId = post.id.toString(); // Convert to string to match backend storage
+        const postLikes = likes[postId] || [];
+        const postComments = comments[postId] || [];
+        const isLiked = postLikes.includes(currentUser);
+        
+        const postEl = document.createElement('div');
+        postEl.className = 'post';
+        postEl.dataset.postId = postId;
+
+        // Get user profile picture
+        const posterProfilePic = post.username === currentUser ? 
+          getUserProfilePic() : '/api/placeholder/32/32';
+
+        postEl.innerHTML = `
+          <div class="post-header">
+            <div class="post-user-avatar">
+              <img src="${posterProfilePic}" alt="${post.username}'s avatar">
+            </div>
+            <div class="post-user-info">
+              <div class="post-user-name">${post.username}</div>
+              <div class="post-time">Posted ${formatTimeAgo(post.timestamp || Date.now())}</div>
+            </div>
+            <div class="post-more">
+              <i class="fa-solid fa-ellipsis"></i>
+            </div>
+          </div>
+          
+          <div class="post-image-container">
+            ${post.image ? `<img src="../backend/${post.image}" alt="Post by ${post.username}" class="post-image">` : ''}
+            <div class="retake-badge">
+              <i class="fa-solid fa-arrows-rotate"></i> ${post.retakes || 0} retakes
+            </div>
+          </div>
+          
+       
+          </div>
+        `;
+
+        feed.appendChild(postEl);
+      });
+    } catch (error) {
+      console.error('Error fetching feed:', error);
+      const feed = document.getElementById('feed');
+      if (feed) {
+        feed.innerHTML = `
+          <div class="empty-state">
+            <i class="fa-solid fa-triangle-exclamation empty-icon"></i>
+            <p class="empty-text">Something went wrong. Please try again later.</p>
+          </div>
+        `;
+      }
+    }
+  }
+
+  // Helper function to format timestamps
+  function formatTimeAgo(timestamp) {
+    const now = Date.now();
+    const diff = now - timestamp;
+    
+    // Convert to seconds
+    const seconds = Math.floor(diff / 1000);
+    
+    if (seconds < 60) {
+      return 'just now';
+    } else if (seconds < 3600) {
+      const minutes = Math.floor(seconds / 60);
+      return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+    } else if (seconds < 86400) {
+      const hours = Math.floor(seconds / 3600);
+      return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    } else {
+      const days = Math.floor(seconds / 86400);
+      return `${days} day${days > 1 ? 's' : ''} ago`;
+    }
+  }
+
+  // Like post function with proper error handling
+  window.likePost = async function(postId) {
+    const currentUser = getCurrentUser();
+    
+    if (!currentUser || currentUser === 'guest') {
+      alert('Please log in to like posts');
+      return;
+    }
+    
+    try {
+      // Find the like button to update UI immediately for better UX
+      const postElement = document.querySelector(`.post[data-post-id="${postId}"]`);
+      if (!postElement) return;
+      
+      const likeButton = postElement.querySelector('.post-action');
+      const likeIcon = likeButton.querySelector('i');
+      const likeCount = likeButton.querySelector('span');
+      
+      // Toggle like state in UI immediately (optimistic update)
+      const isCurrentlyLiked = likeButton.classList.contains('liked');
+      const currentLikes = parseInt(likeCount.textContent) || 0;
+      
+      if (isCurrentlyLiked) {
+        likeButton.classList.remove('liked');
+        likeIcon.classList.replace('fa-solid', 'fa-regular');
+        likeCount.textContent = Math.max(0, currentLikes - 1);
+      } else {
+        likeButton.classList.add('liked');
+        likeIcon.classList.replace('fa-regular', 'fa-solid');
+        likeCount.textContent = currentLikes + 1;
+      }
+      
+      // Send request to backend
+      // Create a request payload matching the backend's expected format
+      const payload = JSON.stringify({
+        postId: postId,
+        user: currentUser
+      });
+      
+      const response = await fetch('../backend/like_post.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: payload
+      });
+      
+      const result = await response.json();
+      
+      if (!result.success) {
+        // Revert UI if backend failed
+        if (isCurrentlyLiked) {
+          likeButton.classList.add('liked');
+          likeIcon.classList.replace('fa-regular', 'fa-solid');
+          likeCount.textContent = currentLikes;
+        } else {
+          likeButton.classList.remove('liked');
+          likeIcon.classList.replace('fa-solid', 'fa-regular');
+          likeCount.textContent = currentLikes;
+        }
+        
+        throw new Error(result.error || '');
+      }
+    } catch (error) {
+      console.error('Error liking post:', error);
+      alert('Error liking post. Please try again.');
+    }
+  };
+
+  // Comment function with proper error handling
+  window.addComment = async function(postId) {
+    const currentUser = getCurrentUser();
+    
+    if (!currentUser || currentUser === 'guest') {
+      alert('Please log in to comment');
+      return;
+    }
+    
+    const inputField = document.getElementById(`comment-input-${postId}`);
+    if (!inputField) return;
+    
+    const commentText = inputField.value.trim();
+    if (!commentText) return;
+    
+    try {
+      // Add comment to UI immediately (optimistic update)
+      const commentsContainer = document.getElementById(`comments-${postId}`);
+      if (commentsContainer) {
+        const tempComment = document.createElement('div');
+        tempComment.className = 'comment temp-comment';
+        tempComment.innerHTML = `
+          <span class="comment-username">${currentUser}</span>
+          ${commentText}
+        `;
+        commentsContainer.appendChild(tempComment);
+      }
+      
+      // Clear input field
+      inputField.value = '';
+      
+      // Send to backend - using JSON format to match backend expectations
+      const payload = JSON.stringify({
+        postId: postId,
+        user: currentUser,
+        text: commentText
+      });
+      
+      const response = await fetch('../backend/add_comment.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: payload
+      });
+      
+      const result = await response.json();
+      
+      if (!result.success) {
+        // Remove temp comment if failed
+        if (commentsContainer) {
+          const tempComment = commentsContainer.querySelector('.temp-comment');
+          if (tempComment) tempComment.remove();
+        }
+        
+        throw new Error(result.error || '');
+      }
+      
+      // Remove temp class from comment
+      if (commentsContainer) {
+        const tempComment = commentsContainer.querySelector('.temp-comment');
+        if (tempComment) tempComment.classList.remove('temp-comment');
+      }
+      
+      // Update comment count
+      const commentButton = document.querySelector(`.post[data-post-id="${postId}"] .post-action:nth-child(2) span`);
+      if (commentButton) {
+        const currentCount = parseInt(commentButton.textContent) || 0;
+        commentButton.textContent = currentCount + 1;
+      }
+    } catch (error) {
+      console.error('Error adding comment:', error);
+      alert('Error adding comment. Please try again.');
+    }
+  };
+
+  window.focusComment = function(postId) {
+    const input = document.getElementById(`comment-input-${postId}`);
+    if (input) input.focus();
+  };
+
+  window.sharePost = function(postId) {
+    const baseUrl = location.href.split('feed.html')[0];
+    const url = `${baseUrl}feed.html?post=${postId}`;
+    navigator.clipboard.writeText(url).then(() => {
+      alert('Post URL copied to clipboard!');
+    }).catch(err => {
+      console.error('Could not copy URL:', err);
+      alert('Could not copy URL. Please share manually.');
+    });
+  };
+
+  window.getCurrentUser = getCurrentUser;
+
+  // Set up profile functionality
+  function setupProfileImageSync() {
+    // Check if on profile page and handle image uploads
+    const profileImageUpload = document.getElementById('profile-image-upload');
+    if (profileImageUpload) {
+      profileImageUpload.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const profileImg = document.getElementById('profile-img');
+          if (profileImg) {
+            profileImg.src = e.target.result;
+            // Save to localStorage for use across pages
+            localStorage.setItem('profilePic', e.target.result);
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+    
+    // Update profile image if already set in localStorage
+    const profileImg = document.getElementById('profile-img');
+    if (profileImg && localStorage.getItem('profilePic')) {
+      profileImg.src = localStorage.getItem('profilePic');
+    }
+  }
+  
+  // Run profile image sync
+  setupProfileImageSync();
+
+  // Initial feed fetch
+  fetchFeed();
+});
+
+
+</script>
+
+  
+</body>
+</html>

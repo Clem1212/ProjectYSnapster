@@ -1,0 +1,44 @@
+[
+    {
+        "from": 1,
+        "to": "682a3a51b0299",
+        "message": "hi",
+        "sender_name": "Cl3m",
+        "timestamp": "2025-05-18 19:52:27"
+    },
+    {
+        "from": "682a3a51b0299",
+        "to": "682a3a51b0299",
+        "message": "heyy",
+        "sender_name": "Clement",
+        "timestamp": "2025-05-18 19:54:14"
+    },
+    {
+        "from": 1,
+        "to": "682a3a51b0299",
+        "message": "wassup",
+        "sender_name": "Cl3m",
+        "timestamp": "2025-05-18 19:54:31"
+    },
+    {
+        "from": "682a3a51b0299",
+        "to": "682a3bc7a4020",
+        "message": "sup",
+        "sender_name": "Clement",
+        "timestamp": "2025-05-18 19:58:11"
+    },
+    {
+        "from": "682a3a51b0299",
+        "to": "682a3bc7a4020",
+        "message": "hi",
+        "sender_name": "Clement",
+        "timestamp": "2025-05-18 20:28:25"
+    },
+    {
+        "from": "682a3bc7a4020",
+        "to": "682a3a51b0299",
+        "message": "whats good",
+        "sender_name": "Cl3m",
+        "timestamp": "2025-05-18 20:28:49"
+    }
+]
