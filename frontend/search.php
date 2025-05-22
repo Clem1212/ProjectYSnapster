@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
+<html lang="en"><head>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Snapster</title>
     <link rel="icon" type="image/x-icon" href="/image/logo-removebg-preview.png">
-<script src="/frontend/app.js"></script>
-
+    <link rel="stylesheet" href="/frontend/app.js">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
@@ -444,7 +441,9 @@ body {
     
 
 
-    
+   .fa-magnifying-glass:hover  {
+  font-size: 25px;
+   }
 
   </style>
   <style>
@@ -499,11 +498,6 @@ body {
   color: white;
 }
 
-.comment-section {
-  max-height: 120px; /* Adjust based on how much space you want */
-  overflow-y: auto;
-  padding-right: 5px; /* Prevent scrollbar overlap */
-}
 
   </style>
 </head>
@@ -511,15 +505,9 @@ body {
 
   <div class="app-header">
     <div class="header-content">
-   
-<div class="logo">
-
- <img id="logo-img" src="/image/logo2.png" style="width: 120px; height: auto;">
-
-</div>    
-      <div class="theme-switch" id="themeSwitch">
-        <i class="fa-solid fa-sun theme-icon"></i>
-      </div>
+      <div class="logo">  <img id="logo-img" src="/image/border2.png" style="width: 120px; height: auto;">
+</div>
+      <div class="theme-switch" id="themeSwitch"><i class="fa-solid fa-sun theme-icon"></i></div>
       <!-- icons-->
       <div class="header-icons">
         <a href="/frontend/profile.html" class="nav-item">
@@ -536,23 +524,127 @@ body {
   
   <div class="container">
     <button id="logoutBtn" class="logout-btn">
-      <i class="fa-solid fa-right-from-bracket" style="font-size: 25px;color: var(--text-color);"></i>
+      <i class="fa-solid fa-right-from-bracket" style="font-size: 25px;"></i>
     </button>
     
-    <div class="page-title"><img id="logo-img" src="/image/logo2.png" style="width: 200px; height: auto;"></div>
+   
     <!--<img id="logo-img" src="/image/border2.png" style="width: 200px; height: auto;">-->
-    
-    <a href="upload.html" class="action-link">
-      <i class="fa-solid fa-camera"></i> Upload Post
-    </a>
-    
-    <div id="feed" class="feed-container">
-      <!-- Feed content will be dynamically inserted here -->
-      <div class="loading">
-        <div class="spinner"></div>
-      </div>
-    </div>
+   
+  <br>
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search by username, name, caption, comment..." style="border-radius:8px;">
+    <button onclick="performSearch()" style="background-color: var(--bg-color); color: var(--text-color);border: none; outline: none; font-size:20px; "><i class="fa-solid fa-magnifying-glass"></i></button>
   </div>
+
+  <div class="search-results" id="searchResults">
+    <p>Enter a search term to see results.</p>
+  </div>
+
+  <script>
+    async function performSearch() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const resultsDiv = document.getElementById('searchResults');
+      resultsDiv.innerHTML = '<p>Searching...</p>';
+
+      try {
+        const response = await fetch('../backend/feed.php');
+        const data = await response.json();
+
+        const filtered = data.filter(post => {
+          const caption = post.caption?.toLowerCase() || '';
+          const username = post.username?.toLowerCase() || '';
+          const name = post.name?.toLowerCase() || '';
+          const comments = post.comments?.join(' ').toLowerCase() || '';
+          return (
+            caption.includes(query) ||
+            username.includes(query) ||
+            name.includes(query) ||
+            comments.includes(query)
+          );
+        });
+
+        if (filtered.length === 0) {
+          resultsDiv.innerHTML = '<p>No results found.</p>';
+          return;
+        }
+
+        resultsDiv.innerHTML = filtered.map(post => `
+          <div class="result-item">
+            <p class="result-caption">${post.caption || 'No Caption'}</p>
+            <p>By <strong>${post.username}</strong>${post.name ? ` (${post.name})` : ''}</p>
+            <img src="../backend/${post.image}" style="max-width: 100%; border-radius: 6px; margin-top: 8px;">
+          </div>
+        `).join('');
+      } catch (err) {
+        console.error('Search error:', err);
+        resultsDiv.innerHTML = '<p>Error loading results. Try again later.</p>';
+      }
+    }
+  </script>
+
+
+<div id="myOverlay" class="overlay" style="display: none;">
+  <span class="closebtn" onclick="closeSearch()" title="Close Overlay">×</span>
+  <div class="overlay-content">
+    
+
+    <form>
+      <input type="text" placeholder="Search.." name="search" id="searchInput">
+      <button type="submit"><i class="fa fa-search"></i></button>
+  
+      <ul id="results">
+      
+
+
+    
+
+    <script>
+      const searchInput = document.getElementById("searchInput");
+
+      // store name elements in array-like object
+      const namesFromDOM = document.getElementsByClassName("name");
+      
+      // listen for user events
+      searchInput.addEventListener("keyup", (event) => {
+          const { value } = event.target;
+          
+          // get user search input converted to lowercase
+          const searchQuery = value.toLowerCase();
+          
+          for (const nameElement of namesFromDOM) {
+              // store name text and convert to lowercase
+              let name = nameElement.textContent.toLowerCase();
+              
+              // compare current name to search input
+              if (name.includes(searchQuery)) {
+                  // found name matching search, display it
+                  nameElement.style.display = "block";
+              } else {
+                  // no match, don't display name
+                  nameElement.style.display = "none";
+              }
+          }
+      });
+      
+      
+      
+      </script>
+
+
+  </ul></form></div>
+  
+ 
+</div>
+
+  
+         
+
+
+       
+
+
+  
+  
   
   <div class="bottom-nav">
     <a href="feed.html" class="nav-item">
@@ -576,273 +668,176 @@ body {
       <span>Profile</span>
     </a>
   </div>
+<style>
 
-  <script>
-  // Apply saved theme on page load
-    window.addEventListener('DOMContentLoaded', () => {
-      const savedTheme = localStorage.getItem('theme') || 'bereal';
-      const body = document.body;
-      const themeSwitch = document.getElementById('themeSwitch');
-      
-      if (savedTheme === 'instagram') {
-        body.classList.add('instagram-theme');
-        themeSwitch.innerHTML = '<i class="fa-solid fa-moon theme-icon"></i>';
-      } else {
-        body.classList.add('bereal-theme');
-        themeSwitch.innerHTML = '<i class="fa-solid fa-sun theme-icon"></i>';
-      }
-    });
+</style>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+  // Theme switcher setup
+  const savedTheme = localStorage.getItem('theme');
+  const body = document.body;
+  const themeSwitch = document.getElementById('themeSwitch');
+  const logoImg = document.getElementById('logo-img');
 
-    // Theme switcher
-    document.getElementById('themeSwitch').addEventListener('click', () => {
-      const body = document.body;
-      const themeSwitch = document.getElementById('themeSwitch');
-      
+  if (savedTheme === 'instagram') {
+    body.classList.add('instagram-theme');
+    if (themeSwitch) themeSwitch.innerHTML = '<i class="fa-solid fa-moon theme-icon"></i>';
+    if (logoImg) logoImg.src = '/image/border1.png';
+  } else {
+    body.classList.add('bereal-theme');
+    if (themeSwitch) themeSwitch.innerHTML = '<i class="fa-solid fa-sun theme-icon"></i>';
+    if (logoImg) logoImg.src = '/image/border2.png';
+  }
+
+  if (themeSwitch) {
+    themeSwitch.addEventListener('click', () => {
       if (body.classList.contains('bereal-theme')) {
-        body.classList.remove('bereal-theme');
-        body.classList.add('instagram-theme');
+        body.classList.replace('bereal-theme', 'instagram-theme');
         themeSwitch.innerHTML = '<i class="fa-solid fa-moon theme-icon"></i>';
+        if (logoImg) logoImg.src = '/image/border1.png';
         localStorage.setItem('theme', 'instagram');
       } else {
-        body.classList.remove('instagram-theme');
-        body.classList.add('bereal-theme');
+        body.classList.replace('instagram-theme', 'bereal-theme');
         themeSwitch.innerHTML = '<i class="fa-solid fa-sun theme-icon"></i>';
+        if (logoImg) logoImg.src = '/image/border2.png';
         localStorage.setItem('theme', 'bereal');
       }
     });
+  }
 
-    // Logout functionality
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      window.location.href = '../frontend/index.html';
-    });
 
-    // BeReal notification system
-    let berealActive = false;
-    let nextBeRealTime = null;
-    let notificationElement = null;
+  // BeReal Notification System
+  let berealActive = false;
+  let nextBeRealTime = null;
+  let notificationElement = null;
 
-    function scheduleNextBeReal() {
-      const now = new Date();
-      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  function scheduleNextBeReal() {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-      // Random hour between 8 AM (8) and 10 PM (22)
-      const hour = Math.floor(Math.random() * (22 - 8 + 1)) + 8;
-      const minute = Math.floor(Math.random() * 60);
+    const hour = Math.floor(Math.random() * (22 - 8 + 1)) + 8;
+    const minute = Math.floor(Math.random() * 60);
 
-      nextBeRealTime = new Date(today.getTime());
-      nextBeRealTime.setHours(hour, minute, 0, 0);
+    nextBeRealTime = new Date(today.getTime());
+    nextBeRealTime.setHours(hour, minute, 0, 0);
 
-      // If that time already passed today, schedule for tomorrow
-      if (nextBeRealTime <= now) {
-        nextBeRealTime.setDate(nextBeRealTime.getDate() + 1);
-      }
-
-      console.log("Next BeReal notification at: " + nextBeRealTime);
+    if (nextBeRealTime <= now) {
+      nextBeRealTime.setDate(nextBeRealTime.getDate() + 1);
     }
+    console.log("Next BeReal notification at:", nextBeRealTime);
+  }
 
-    function showBeRealNotification() {
-      if (notificationElement) {
-        document.body.removeChild(notificationElement);
+  function showBeRealNotification() {
+    if (notificationElement) {
+      notificationElement.remove();
+    }
+    notificationElement = document.createElement('div');
+    notificationElement.className = 'bereal-notification';
+    notificationElement.innerHTML = `
+      <i class="fa-solid fa-camera notification-icon"></i>
+      <span class="notification-text">It's time to Snapster!</span>
+      <span class="countdown" id="bereal-countdown">2:00</span>
+    `;
+    document.body.appendChild(notificationElement);
+
+    let seconds = 120;
+    const countdownElement = document.getElementById('bereal-countdown');
+
+    const countdownInterval = setInterval(() => {
+      seconds--;
+      const minutes = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      if (countdownElement) countdownElement.textContent = `${minutes}:${secs.toString().padStart(2, '0')}`;
+
+      if (seconds <= 0) {
+        clearInterval(countdownInterval);
+        if (notificationElement) {
+          notificationElement.remove();
+          notificationElement = null;
+        }
+        berealActive = false;
+        scheduleNextBeReal();
       }
+    }, 1000);
+  }
 
-      notificationElement = document.createElement('div');
-      notificationElement.className = 'bereal-notification';
-      notificationElement.innerHTML = `
-        <i class="fa-solid fa-camera notification-icon"></i>
-        <span class="notification-text">It's time to BeReal!</span>
-        <span class="countdown" id="bereal-countdown">2:00</span>
-      `;
-      document.body.appendChild(notificationElement);
+  function startBeRealCycle() {
+    scheduleNextBeReal();
 
-      // Start countdown
-      let seconds = 120; // 2 minutes
-      const countdownElement = document.getElementById('bereal-countdown');
+    setInterval(() => {
+      if (!berealActive) {
+        const now = new Date();
+        if (now >= nextBeRealTime) {
+          berealActive = true;
+          showBeRealNotification();
+        }
+      }
+    }, 1000);
+  }
+
+  startBeRealCycle();
+
+  
+});
+
+
+</script>
+
+  
+
+
+  <style>
+   
+    .search-box {
+      max-width: 600px;
+      margin: auto;
+      display: flex;
+      gap: 10px;
+      background-color:var(--bg-color); 
+       color: var(--text-color);
+    }
+    .search-box input {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
       
-      const countdownInterval = setInterval(() => {
-        seconds--;
-        const minutes = Math.floor(seconds / 60);
-        const secs = seconds % 60;
-        countdownElement.textContent = `${minutes}:${secs.toString().padStart(2, '0')}`;
-        
-        if (seconds <= 0) {
-          clearInterval(countdownInterval);
-          if (notificationElement) {
-            document.body.removeChild(notificationElement);
-            notificationElement = null;
-          }
-          berealActive = false;
-          scheduleNextBeReal();
-        }
-      }, 1000);
-    }
+    }.search-results {
+  max-width: 600px;
+  margin: 40px auto;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(56, 55, 55, 0.1);
+  padding: 25px 30px;
+  text-align: left;
+  font-family: 'Segoe UI', sans-serif;
+}
 
-    function startBeRealCycle() {
-      scheduleNextBeReal();
+.result-item {
+  padding: 15px 0;
+  border-bottom: 1px solid rgba(130, 129, 129, 0.1);
+  transition: background-color 0.3s ease;
+}
 
-      setInterval(() => {
-        if (!berealActive) {
-          const now = new Date();
-          if (now >= nextBeRealTime) {
-            berealActive = true;
-            showBeRealNotification();
-          }
-        }
-      }, 1000); // Check every second
-    }
+.result-item:hover {
+  background-color: rgba(134, 134, 134, 0.05); /* subtle hover effect */
+}
 
-    startBeRealCycle();
+.result-item:last-child {
+  border-bottom: none;
+}
 
-    // Fetch and display the feed
-    async function fetchFeed() {
-      try {
-        const res = await fetch('../backend/feed.php');
-        const posts = await res.json();
-        const feed = document.getElementById('feed');
-        
-        if (posts.length === 0) {
-          feed.innerHTML = `
-            <div class="empty-state">
-              <i class="fa-solid fa-camera-retro empty-icon"></i>
-              <p class="empty-text">No posts yet! Be the first to share.</p>
-              <a href="upload.html" class="action-link">Upload Post</a>
-            </div>
-          `;
-          return;
-        }
-        
-        feed.innerHTML = '';
+.result-caption {
+  font-weight: 600;
+  font-size: 1.1em;
+  margin-bottom: 4px;
+  display: block;
+}
 
-        posts.reverse().forEach(post => {
-          const postEl = document.createElement('div');
-          postEl.className = 'post';
+.result-description {
+  font-size: 0.95em;
+  opacity: 0.8;
+}
 
-          postEl.innerHTML = `
-            <div class="post-header">
-             
-              <div class="post-user-info">
-                <div class="post-user-name">${post.username}</div>
-                <div class="post-time">Posted recently</div>
-              </div>
-              <div class="post-more">
-                <i class="fa-solid fa-ellipsis"></i>
-              </div>
-            </div>
-            
-            <div class="post-image-container">
-              ${post.image ? `<img src="../backend/${post.image}" alt="Post by ${post.username}" class="post-image">` : ''}
-              <div class="retake-badge">
-                <i class="fa-solid fa-arrows-rotate"></i> ${post.retakes || 0} retakes
-              </div>
-            </div>
-            
-            <div class="post-actions">
-              <button class="post-action" onclick="likePost(${post.id})">
-                <i class="fa-${post.likes?.includes(getCurrentUser()) ? 'solid' : 'regular'} fa-heart"></i>
-                <span>${post.likes?.length || 0}</span>
-              </button>
-              <button class="post-action" onclick="focusComment(${post.id})">
-                <i class="fa-regular fa-comment"></i>
-                <span>${post.comments?.length || 0}</span>
-              </button>
-              <button class="post-action" onclick="sharePost(${post.id})">
-                <i class="fa-regular fa-share-from-square"></i>
-              </button>
-            </div>
-            
-            <div class="post-caption">
-              <span class="post-caption-username">${post.username}</span>
-              ${post.caption}
-            </div>
-            <div class="comment-section" id="comments-${post.id}">
-    ${post.comments.map(c => `
-      <div class="comment">
-        <span class="comment-username">${c.username}</span>
-        ${c.comment}
-      </div>
-    `).join('')}
-  </div>
-  <div class="add-comment">
-    <input type="text" id="comment-input-${post.id}" class="comment-input" placeholder="Add a comment..." />
-    <button onclick="addComment(${post.id})" class="comment-button">Post</button>
-  </div>
-`;
-
-          feed.appendChild(postEl);
-        });
-      } catch (error) {
-        console.error('Error fetching feed:', error);
-        document.getElementById('feed').innerHTML = `
-          <div class="empty-state">
-            <i class="fa-solid fa-triangle-exclamation empty-icon"></i>
-            <p class="empty-text">Something went wrong. Please try again later.</p>
-          </div>
-        `;
-      }
-    }
-
-    // Helper function to get current user (placeholder)
-    function getCurrentUser() {
-      return 'currentUser'; // In a real app, this would come from session/auth
-    }
-
-    // Function to focus on comment input
-    function focusComment(postId) {
-      const commentInput = document.getElementById(`comment-input-${postId}`);
-      if (commentInput) {
-        commentInput.focus();
-      }
-    }
-
-    async function likePost(postId) {
-      const formData = new FormData();
-      formData.append('postId', postId);
-      try {
-        const res = await fetch('../backend/like_post.php', { method: 'POST', body: formData });
-        const data = await res.json();
-        if (data.success) fetchFeed();
-        else alert(data.error || 'Failed to like post');
-      } catch (error) {
-        console.error('Error liking post:', error);
-        alert('Something went wrong. Please try again.');
-      }
-    }
-
-    async function addComment(postId) {
-      const input = document.getElementById(`comment-input-${postId}`);
-      const comment = input.value.trim();
-      if (!comment) return;
-      
-      const formData = new FormData();
-      formData.append('postId', postId);
-      formData.append('comment', comment);
-      
-      try {
-        const res = await fetch('../backend/add_comment.php', { method: 'POST', body: formData });
-        const data = await res.json();
-        if (data.success) {
-          input.value = '';
-          fetchFeed();
-        } else {
-          alert(data.error || 'Comment failed');
-        }
-      } catch (error) {
-        console.error('Error adding comment:', error);
-        alert('Something went wrong. Please try again.');
-      }
-    }
-
-    function sharePost(postId) {
-      const url = `${location.href.split('feed.html')[0]}?post=${postId}`;
-      navigator.clipboard.writeText(url).then(() => {
-        alert('Post URL copied to clipboard!');
-      }).catch(err => {
-        console.error('Could not copy URL: ', err);
-        alert('Could not copy URL. Please share manually.');
-      });
-    }
-
-    // Initialize the feed
-    fetchFeed();
-  </script>
-</body>
-</html>
+  </style>
+</body></html>

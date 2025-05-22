@@ -370,7 +370,7 @@ if (isset($_SESSION['user'])) {
        <a href="/frontend/chat_app.php">
         <i class="fa-solid fa-message header-icon"></i></a>
          <a id="logoutBtn" class="logout-btn" href="/frontend/index.html">
-      <i class="fa-solid fa-right-from-bracket" style="font-size: 25px;"></i>
+      <i class="fa-solid fa-right-from-bracket" style="font-size: 25px;color: var(--text-color);"></i>
         </a>
       </div>
      -
@@ -478,14 +478,20 @@ window.addEventListener('DOMContentLoaded', () => {
     <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9.75L12 3l9 6.75V21a.75.75 0 01-.75.75H3.75A.75.75 0 013 21V9.75z"/></svg>
     <span>Home</span>
   </a>
- 
+  <a href="/frontend/search.php" class="nav-item" aria-label="Search">
+<svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <circle cx="11" cy="11" r="7" />
+  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+</svg>
+  <span>Search</span>
+    </a>
   <a href="upload.html" class="nav-item" aria-label="Upload">
     <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v12m0 0l-4-4m4 4l4-4"/><path d="M4 20h16"/></svg>
     <span>Upload</span>
   </a>
   <a href="chat_app.php" class="nav-item" aria-label="Alerts">
     <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8a6 6 0 10-12 0v4a2 2 0 01-2 2h16a2 2 0 01-2-2v-4z"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-    <span>Alerts</span>
+    <span>Messages</span>
   </a>
   <a href="/frontend/profile.html" class="nav-item" aria-label="Profile">
     <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a6.5 6.5 0 0113 0"/></svg>

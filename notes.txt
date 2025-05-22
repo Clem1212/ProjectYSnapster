@@ -1,18 +1,29 @@
-//http://localhost:8000/frontend/index.html - intro
-//stories/ highlight* - notifications that say its time to bereal, then has streaks 
-//snaps with voice memos* - snap msg
-//status updates
-//search?
+//http://localhost:8000/frontend/index.html - intro 
+
+===========================================================================================
+
+1. //deletepost/privatepost 
+../backend/update_privacy.php
+../backend/update_avatar.php
+--------------------------------------------------
+//stories/ highlight* - notifications that say its time to bereal, then has streaks
+//snaps with voice memos* - snap msg later
+//status updates w/pfp
+===========================================================================================
 
 //php -S localhost:8000 - start php
 
-profile...1092
-          <div class="post-thumbnail-overlay">
-            <div class="post-thumbnail-icons">
-              <div class="post-thumbnail-icon" onclick="showPrivacyModal(${post.id})">
-                <i class="fa-solid ${post.isPrivate ? 'fa-lock' : 'fa-globe'}"></i>
-              </div>
-              <div class="post-thumbnail-icon" onclick="showDeleteModal(${post.id})">
-                <i class="fa-solid fa-trash"></i>
-              </div>
+
+
+<!here -->
+  <div class="post-thumbnail-icon" onclick="showDeleteModal(${post.id})">
+
+              <i class="fa-solid fa-trash"></i>
+
+            </div>
+
+            <div class="post-thumbnail-icon" onclick="showPrivacyModal(${post.id})">
+
+              <i class="fa-solid ${post.isPrivate ? 'fa-lock' : 'fa-globe'}"></i>
+
             </div>

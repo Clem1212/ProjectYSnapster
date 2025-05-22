@@ -40,5 +40,42 @@
         "message": "whats good",
         "sender_name": "Cl3m",
         "timestamp": "2025-05-18 20:28:49"
+    },
+    {
+        "from": "682a3bc7a4020",
+        "to": "682a3bc7a4020",
+        "message": "yoo",
+        "photo": "uploads\/682df1d3193b8_border1.png",
+        "sender_name": "Cl3m",
+        "timestamp": "2025-05-21 15:31:31"
+    },
+    {
+        "from": "682a3bc7a4020",
+        "to": "682a3bc7a4020",
+        "message": "e",
+        "photo": "uploads\/682df26eb9fdf_border1.png",
+        "sender_name": "Cl3m",
+        "timestamp": "2025-05-21 15:34:06"
+    },
+    {
+        "from": "682a3bc7a4020",
+        "to": "682a3bc7a4020",
+        "message": "e",
+        "sender_name": "Cl3m",
+        "timestamp": "2025-05-21 15:37:34"
+    },
+    {
+        "from": "682a3bc7a4020",
+        "to": "682a3a51b0299",
+        "message": "e",
+        "sender_name": "Cl3m",
+        "timestamp": "2025-05-21 15:43:21"
+    },
+    {
+        "from": "682a3a51b0299",
+        "to": "682a3bc7a4020",
+        "message": "yoo",
+        "sender_name": "Clement",
+        "timestamp": "2025-05-21 15:46:00"
     }
 ]

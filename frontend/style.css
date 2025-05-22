@@ -9,6 +9,33 @@ color: #262626;
 line-height: 1.5;
 background-color: #fafafa;
 padding-bottom: 60px; / Space for bottom navigation */
+/* theme.css */
+.instagram-theme {
+  --bg-color: #fafafa;
+  --card-bg: #ffffff;
+  --text-color: #262626;
+  --text-secondary: #8e8e8e;
+  --border-color: #dbdbdb;
+  --primary-color: #0095f6;
+  --like-color: #ed4956;
+  --header-bg: #ffffff;
+}
+
+.bereal-theme {
+  --bg-color: #000000;
+  --card-bg: #121212;
+  --text-color: #ffffff;
+  --text-secondary: #a8a8a8;
+  --border-color: #333333;
+  --primary-color: #FF375F;
+  --like-color: #FF375F;
+  --header-bg: #000000;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
 
 h1, h2, h3, h4 {
 font-weight: 600;

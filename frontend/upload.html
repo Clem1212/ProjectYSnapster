@@ -36,7 +36,7 @@
     /* BeReal Dark Theme */
     .bereal-theme {
       --bg-color: #000000;
-      --card-bg: #121212;
+      --card-bg: #000000;
       --text-color: #ffffff;
       --text-secondary: #a8a8a8;
       --border-color: #333333;
@@ -626,22 +626,46 @@ fetch('update_streak.php', {
     console.log('Current streak:', data.streak);
   }
 });
-
+function loadFeed() {
+  fetch('feed.php')
+    .then(response => response.json())
+    .then(posts => {
+      const feedContainer = document.getElementById('feed-container');
+      feedContainer.innerHTML = '';
+      
+      posts.forEach(post => {
+        // Get the correct image path
+        const imagePath = post.image || post.photo || 'placeholder.png';
+        
+        // Create post element with the image
+        const postEl = document.createElement('div');
+        postEl.className = 'post';
+        postEl.innerHTML = `
+          <img src="${imagePath}" alt="${post.caption || ''}">
+          <div class="caption">${post.caption || ''}</div>
+        `;
+        
+        feedContainer.appendChild(postEl);
+      });
+    });
+}
 </script>
-<!-- Place this right before closing </body> tag -->
-<div class="bottom-nav">
+  <div class="bottom-nav">
     <a href="feed.html" class="nav-item">
       <i class="fa-solid fa-home nav-icon"></i>
       <span>Home</span>
     </a>
-  
+    <a href="/frontend/search.php" class="nav-item">
+      <i class="fa-solid fa-magnifying-glass nav-icon"></i>
+      <span>Search</span>
+    </a>
     <a href="upload.html" class="nav-item">
       <i class="fa-solid fa-square-plus nav-icon"></i>
       <span>Upload</span>
     </a>
     <a href="chat_app.php" class="nav-item">
       <i class="fa-solid fa-bell nav-icon"></i>
-      <span>Alerts</span>
+      <span>Messages</span>
     </a>
     <a href="/frontend/profile.html" class="nav-item">
       <i class="fa-solid fa-user nav-icon"></i>

@@ -504,37 +504,58 @@
     
    
     <!--<img id="logo-img" src="/image/border2.png" style="width: 200px; height: auto;">-->
-    <div class="search-container">
-  <br><br>
-  <button class="openBtn" onclick="openSearch()">
-    <i class="fa fa-search"></i>
-  </button>
-</div>
-
-</div>
- 
-  
-<div id="#" class="overlay">
-  
-  <span class="closebtn" onclick="closeS()">×</span>
-  <div class="overlay-content">
-    
-
-
-    <a class="active" href="homepage.html">Sign Out <img src="comsimg.png" style="width:40px;height:40px;"></a>
- <a href="gamething.html" style="font-size: 25px; color:#f2f2f2"><i class="fa fa-search"></i>Game hub</a>
-     <a href="https://ckynsdj2j115639qojn8quokgax-ai7cwbfyf-clementamoah-kyschoolsus.vercel.app/create" style="font-size: 25px; color:#f2f2f2"><i class="fa fa-envelope"></i>Coms meetings</a>
-     <a href="ComsDeluxe.html" style="font-size: 25px; color:#f2f2f2"><i class="fa fa-globe"></i>Comsdeluxe</a>
-     <a href="#" style="font-size: 25px; color:#f2f2f2"><img src="https://cdn2.iconfinder.com/data/icons/gaming-and-beyond-part-2-1/80/User_gray-512.png" style=" width:40px; height:40px; float: right;"></a>
-  </div>
-  
-
    
-    
- 
-</div>
+  
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search by username, name, caption, comment...">
+    <button onclick="performSearch()"><i class="fa fa-search"></i></button>
+  </div>
 
+  <div class="search-results" id="searchResults">
+    <p>Enter a search term to see results.</p>
+  </div>
 
+  <script>
+    async function performSearch() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const resultsDiv = document.getElementById('searchResults');
+      resultsDiv.innerHTML = '<p>Searching...</p>';
+
+      try {
+        const response = await fetch('../backend/feed.php');
+        const data = await response.json();
+
+        const filtered = data.filter(post => {
+          const caption = post.caption?.toLowerCase() || '';
+          const username = post.username?.toLowerCase() || '';
+          const name = post.name?.toLowerCase() || '';
+          const comments = post.comments?.join(' ').toLowerCase() || '';
+          return (
+            caption.includes(query) ||
+            username.includes(query) ||
+            name.includes(query) ||
+            comments.includes(query)
+          );
+        });
+
+        if (filtered.length === 0) {
+          resultsDiv.innerHTML = '<p>No results found.</p>';
+          return;
+        }
+
+        resultsDiv.innerHTML = filtered.map(post => `
+          <div class="result-item">
+            <p class="result-caption">${post.caption || 'No Caption'}</p>
+            <p>By <strong>${post.username}</strong>${post.name ? ` (${post.name})` : ''}</p>
+            <img src="../backend/${post.image}" style="max-width: 100%; border-radius: 6px; margin-top: 8px;">
+          </div>
+        `).join('');
+      } catch (err) {
+        console.error('Search error:', err);
+        resultsDiv.innerHTML = '<p>Error loading results. Try again later.</p>';
+      }
+    }
+  </script>
 
 
 <div id="myOverlay" class="overlay" style="display: none;">
@@ -694,7 +715,7 @@ function closeSearch() {
       <i class="fa-solid fa-home nav-icon"></i>
       <span>Home</span>
     </a>
-    <a href="#" class="nav-item">
+    <a href="/frontend/search.php" class="nav-item">
       <i class="fa-solid fa-magnifying-glass nav-icon"></i>
       <span>Search</span>
     </a>
@@ -704,7 +725,7 @@ function closeSearch() {
     </a>
     <a href="chat_app.php" class="nav-item">
       <i class="fa-solid fa-bell nav-icon"></i>
-      <span>Alerts</span>
+      <span>Messages</span>
     </a>
     <a href="/frontend/profile.html" class="nav-item">
       <i class="fa-solid fa-user nav-icon"></i>
