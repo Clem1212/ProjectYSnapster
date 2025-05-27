@@ -517,13 +517,15 @@ body {
          <a href="/frontend/chat_app.php" class="nav-item">
         <i class="fa-solid fa-message" style="font-size: 20px;"></i>
         </a>
-        
+          <a href="/frontend/search.php" class="nav-item">
+       <i class="fa-solid fa-magnifying-glass"style="font-size: 20px;"></i>
+        </a>
       </div>
     </div>
   </div>
   
   <div class="container">
-    <button id="logoutBtn" class="logout-btn">
+    <button id="logoutBtn" class="logout-btn" >
       <i class="fa-solid fa-right-from-bracket" style="font-size: 25px;"></i>
     </button>
     
@@ -541,6 +543,9 @@ body {
   </div>
 
   <script>
+      document.getElementById('logoutBtn').addEventListener('click', () => {
+      window.location.href = '../frontend/index.html';
+    });
     async function performSearch() {
       const query = document.getElementById('searchInput').value.toLowerCase();
       const resultsDiv = document.getElementById('searchResults');

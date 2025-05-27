@@ -77,5 +77,92 @@
         "message": "yoo",
         "sender_name": "Clement",
         "timestamp": "2025-05-21 15:46:00"
+    },
+    {
+        "from": "682de14c55d39",
+        "to": "682f2fbce0ef6",
+        "message": "hi",
+        "sender_name": "Clemmm",
+        "timestamp": "2025-05-22 14:08:05"
+    },
+    {
+        "from": "682f2fbce0ef6",
+        "to": "682de14c55d39",
+        "message": "sup",
+        "sender_name": "Clement2",
+        "timestamp": "2025-05-22 14:08:12"
+    },
+    {
+        "from": "682de14c55d39",
+        "to": "682f2fbce0ef6",
+        "message": "heyy",
+        "sender_name": "Clemmm",
+        "timestamp": "2025-05-22 14:12:46"
+    },
+    {
+        "from": "682a3bc7a4020",
+        "to": "682f2fbce0ef6",
+        "message": "wassup",
+        "sender_name": "Cl3m",
+        "timestamp": "2025-05-26 13:32:54",
+        "type": "text",
+        "photo": null
+    },
+    {
+        "from": "682a3bc7a4020",
+        "to": "682a3a51b0299",
+        "message": "e",
+        "sender_name": "Cl3m",
+        "timestamp": "2025-05-26 15:45:53"
+    },
+    {
+        "from": "682a3bc7a4020",
+        "to": "682f2fbce0ef6",
+        "message": "",
+        "photo": "uploads\/photo_68348cdfae9fb.jpg",
+        "sender_name": "Cl3m",
+        "timestamp": "2025-05-26 15:46:39",
+        "type": "photo"
+    },
+    {
+        "from": "682a3bc7a4020",
+        "to": "682f2fbce0ef6",
+        "message": "e",
+        "sender_name": "Cl3m",
+        "timestamp": "2025-05-26 15:49:18",
+        "type": "text"
+    },
+    {
+        "from": "682de14c55d39",
+        "to": "682a3bc7a4020",
+        "message": "yoo",
+        "sender_name": "Clemmm",
+        "timestamp": "2025-05-27 05:01:49",
+        "type": "text"
+    },
+    {
+        "from": "682a3bc7a4020",
+        "to": "682de14c55d39",
+        "message": "type",
+        "sender_name": "Cl3m",
+        "timestamp": "2025-05-27 05:01:56",
+        "type": "text"
+    },
+    {
+        "from": "682a3bc7a4020",
+        "to": "682de14c55d39",
+        "message": "",
+        "photo": "uploads\/photo_6835475521849.jpg",
+        "sender_name": "Cl3m",
+        "timestamp": "2025-05-27 05:02:13",
+        "type": "photo"
+    },
+    {
+        "from": "682a3bc7a4020",
+        "to": "682f2fbce0ef6",
+        "message": "yoo",
+        "sender_name": "Cl3m",
+        "timestamp": "2025-05-27 16:15:04",
+        "type": "text"
     }
 ]

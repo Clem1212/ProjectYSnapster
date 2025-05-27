@@ -36,7 +36,17 @@
   --like-color: #ed4956;
   --header-bg: #ffffff;
 }
+.bereal-theme input,
+.bereal-theme textarea {
+  background-color: #1e1e1e;
+  color: #fff;
+}
 
+.bereal-theme input::placeholder,
+.bereal-theme textarea::placeholder {
+  color: #a8a8a8;
+  opacity: 1;
+}
 .bereal-theme {
   --bg-color: #000000;
   --card-bg: #121212;
@@ -496,7 +506,7 @@ body {
 /* Instagram button */
 .instagram-theme button {
   background-color: --text-color;
-  color: white;
+  color: var(--text-secondary);
 }
 
 .comment-section {
@@ -526,10 +536,13 @@ body {
   <i class="fa-solid fa-user header-icon"></i>
         </a>
       
+ 
          <a href="/frontend/chat_app.php" class="nav-item">
         <i class="fa-solid fa-message" style="font-size: 20px;"></i>
         </a>
-        
+          <a href="/frontend/search.php" class="nav-item">
+       <i class="fa-solid fa-magnifying-glass"style="font-size: 20px;"></i>
+        </a>
       </div>
     </div>
   </div>
@@ -713,6 +726,10 @@ body {
         feed.innerHTML = '';
 
         posts.reverse().forEach(post => {
+          // Ensure comments and likes are always arrays
+          post.comments = Array.isArray(post.comments) ? post.comments : [];
+          post.likes = Array.isArray(post.likes) ? post.likes : [];
+
           const postEl = document.createElement('div');
           postEl.className = 'post';
 
@@ -728,12 +745,26 @@ body {
               </div>
             </div>
             
-            <div class="post-image-container">
-              ${post.image ? `<img src="../backend/${post.image}" alt="Post by ${post.username}" class="post-image">` : ''}
-              <div class="retake-badge">
-                <i class="fa-solid fa-arrows-rotate"></i> ${post.retakes || 0} retakes
-              </div>
-            </div>
+          <div class="post-image-container">
+  ${
+    post.image
+      ? `<img src="../backend/${post.image}" alt="Post by ${post.username}" class="post-image">`
+      : post.video
+        ? `<video class="post-image" controls>
+             <source src="../backend/${post.video}" type="video/webm">
+             Your browser does not support the video tag.
+           </video>`
+        : ''
+  }
+  ${
+    post.image
+      ? `<div class="retake-badge">
+           <i class="fa-solid fa-arrows-rotate"></i> ${post.retakes || 0} retakes
+         </div>`
+      : ''
+  }
+</div>
+
             
             <div class="post-actions">
               <button class="post-action" onclick="likePost(${post.id})">
@@ -762,7 +793,7 @@ body {
     `).join('')}
   </div>
   <div class="add-comment">
-    <input type="text" id="comment-input-${post.id}" class="comment-input" placeholder="Add a comment..." />
+    <input type="text" id="comment-input-${post.id}" class="comment-input" placeholder="Add a comment..." style="color: black;"/>
     <button onclick="addComment(${post.id})" class="comment-button">Post</button>
   </div>
 `;

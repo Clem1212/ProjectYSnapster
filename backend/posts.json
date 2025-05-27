@@ -47,39 +47,6 @@
         "comments": []
     },
     {
-        "id": 6,
-        "username": "Clement2",
-        "image": "uploads\/photo_682dee3b5ca127.49428017.png",
-        "caption": "e",
-        "retakes": 1,
-        "likes": [
-            2
-        ],
-        "comments": []
-    },
-    {
-        "id": 7,
-        "username": "Clement2",
-        "image": "uploads\/photo_682def5d749e17.51173039.png",
-        "caption": "e",
-        "retakes": 1,
-        "likes": [
-            2
-        ],
-        "comments": [
-            {
-                "userId": 2,
-                "username": "Clement2",
-                "comment": "hi"
-            },
-            {
-                "userId": 2,
-                "username": "Clement2",
-                "comment": "amazing"
-            }
-        ]
-    },
-    {
         "id": 8,
         "username": "Clement",
         "image": "uploads\/photo_682df5490818e9.57352358.png",
@@ -97,7 +64,9 @@
         "caption": "testy",
         "retakes": 1,
         "likes": [],
-        "comments": []
+        "comments": [],
+        "isPrivate": true,
+        "private": true
     },
     {
         "id": 10,
@@ -105,9 +74,10 @@
         "image": "uploads\/photo_682e3010105e86.19707145.png",
         "caption": "TRIM",
         "retakes": 1,
-        "likes": [
-            2
-        ],
+        "likes": {
+            "1": 3,
+            "2": 1
+        },
         "comments": [
             {
                 "userId": 2,
@@ -123,8 +93,20 @@
                 "userId": 1,
                 "username": "Cl3m",
                 "comment": "YVL"
+            },
+            {
+                "userId": 2,
+                "username": "Clement2",
+                "comment": "TRIMMM"
+            },
+            {
+                "userId": 1,
+                "username": "Cl3m",
+                "comment": "tuff"
             }
-        ]
+        ],
+        "isPrivate": false,
+        "private": false
     },
     {
         "id": 11,
@@ -142,7 +124,8 @@
         "caption": "green",
         "retakes": 1,
         "likes": [
-            3
+            3,
+            1
         ],
         "comments": [
             {
@@ -169,7 +152,70 @@
                 "userId": 2,
                 "username": "Clement2",
                 "comment": "testy"
+            },
+            {
+                "userId": 1,
+                "username": "Cl3m",
+                "comment": "coolin"
+            },
+            {
+                "userId": 2,
+                "username": "Clement2",
+                "comment": "tuff"
             }
         ]
+    },
+    {
+        "id": 13,
+        "username": "Clement2",
+        "image": "uploads\/photo_68347e1f406209.18140793.png",
+        "caption": "hat",
+        "retakes": 1,
+        "likes": [
+            3,
+            2
+        ],
+        "comments": [
+            {
+                "userId": 3,
+                "username": "Clemmm",
+                "comment": "cool hat"
+            }
+        ],
+        "isPrivate": false,
+        "private": false
+    },
+    {
+        "id": 15,
+        "username": "Cl3m",
+        "image": "uploads\/photo_6834a0905d1582.08252457.png",
+        "caption": "",
+        "retakes": 1,
+        "likes": [
+            2
+        ],
+        "comments": [
+            {
+                "userId": 2,
+                "username": "Clement2",
+                "comment": "Tuff"
+            },
+            {
+                "userId": 2,
+                "username": "Clement2",
+                "comment": "cool"
+            }
+        ],
+        "isPrivate": true,
+        "private": true
+    },
+    {
+        "id": 13,
+        "username": "Cl3m",
+        "image": "uploads\/photo_683546ef4bfbf5.83021440.png",
+        "caption": "green fn",
+        "retakes": 1,
+        "likes": [],
+        "comments": []
     }
 ]

@@ -13,5 +13,10 @@
         "id": 3,
         "username": "Clemmm",
         "password": "$2y$10$6UVNXnbq8kKJi.aiEqfxReS7ks7K\/NjwYPnth4zdhe\/5zkabbKBLC"
+    },
+    {
+        "id": 4,
+        "username": "Bobby",
+        "password": "$2y$10$rqT.yhNxfk6Q9xU5\/KgqmulOYqDNRphwmf2w6mXNr.WDTNTGPLSZ6"
     }
 ]

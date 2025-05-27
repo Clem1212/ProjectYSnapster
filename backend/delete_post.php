@@ -1,4 +1,5 @@
 <?php
+// Updated delete_post.php - add this check after reading posts
 session_start();
 header('Content-Type: application/json');
 
@@ -14,37 +15,36 @@ if (!isset($_POST['postId'])) {
 
 $postId = intval($_POST['postId']);
 $currentUserId = $_SESSION['user']['id'];
+$currentUsername = $_SESSION['user']['username']; // Add this line
 
 $postsFile = __DIR__ . '/posts.json';
 
-// Check if posts file exists
 if (!file_exists($postsFile)) {
     echo json_encode(["success" => false, "error" => "Posts file not found"]);
     exit;
 }
 
-// Read posts
 $posts = json_decode(file_get_contents($postsFile), true);
 if (!is_array($posts)) {
     $posts = [];
 }
 
-// Find the post to delete
 $postFound = false;
 $postToDelete = null;
 
 foreach ($posts as $index => $post) {
-    if ($post['id'] === $postId) {
-        // Check if user owns this post
-        if ($post['userId'] !== $currentUserId) {
+    if ($post['id'] == $postId) { // Use == for type flexibility
+        // Check ownership by both userId and username
+        $isOwner = (isset($post['userId']) && $post['userId'] == $currentUserId) || 
+                   (isset($post['username']) && $post['username'] === $currentUsername);
+        
+        if (!$isOwner) {
             echo json_encode(["success" => false, "error" => "Unauthorized - you can only delete your own posts"]);
             exit;
         }
         
         $postToDelete = $post;
         $postFound = true;
-        
-        // Remove the post from array
         array_splice($posts, $index, 1);
         break;
     }
@@ -60,7 +60,6 @@ if (isset($postToDelete['image']) && file_exists($postToDelete['image'])) {
     unlink($postToDelete['image']);
 }
 
-// Save updated posts
 if (file_put_contents($postsFile, json_encode($posts, JSON_PRETTY_PRINT))) {
     echo json_encode([
         "success" => true, 

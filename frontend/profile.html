@@ -15,7 +15,17 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
-
+  .logout-btn {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background-color: transparent;
+      color: var(--text-color);
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 110;
+    }
     /* Modern Social Media App - Profile Page */
 
     * {
@@ -916,6 +926,7 @@
 
       }
 
+
       
 
       body {
@@ -1157,7 +1168,11 @@
     display: none;
 
   }
+ .note-box {
 
+        display: none;
+
+      }
 }
 
 
@@ -1204,7 +1219,9 @@
 
         <i class="fa-solid fa-message header-icon"></i></a>  
 
-        
+         <a href="/frontend/search.php" class="nav-item">
+       <i class="fa-solid fa-magnifying-glass"style="font-size: 20px;"></i>
+        </a>
 
         <a id="logoutBtn" class="logout-btn">
 
@@ -1525,7 +1542,32 @@ loadFromLocalStorage();
             <i class="fa-solid fa-right-from-bracket"></i> Logout 
 
           </button></a>
+            <textarea id="note" class="note-box" placeholder="Write your note here..."></textarea>
 
+  <style>
+    .note-box {
+  
+border: none;
+padding: 10px 16px;
+border-radius: 4px;
+font-weight: 600;
+cursor: pointer;
+
+margin: 8px 0;
+     
+    }
+  </style>
+  <script>
+    const textarea = document.getElementById('note');
+
+    // Load saved note
+    textarea.value = localStorage.getItem('savedNote') || '';
+
+    // Save note on input
+    textarea.addEventListener('input', () => {
+      localStorage.setItem('savedNote', textarea.value);
+    });
+  </script>
         </div>
 
       </div>
@@ -2347,87 +2389,58 @@ if (publicLinkElement) {
   
 
   // Render posts grid
-
-  function renderPosts(posts) {
-
-    if (posts.length === 0) {
-
-      profileContent.innerHTML = `
-
-        <div class="empty-state">
-
-          <i class="fa-solid fa-camera-retro empty-icon"></i>
-
-          <p class="empty-text">You haven't posted anything yet.</p>
-
-          <a href="upload.html" class="profile-action-btn">
-
-            <i class="fa-solid fa-plus"></i> Create First Post
-
-          </a>
-
-        </div>
-
-      `;
-
-      return;
-
-    }
-
-    
-
-    const grid = document.createElement('div');
-
-    grid.className = 'post-grid';
-
-    
-
-    posts.forEach(post => {
-
-      const postElement = document.createElement('div');
-
-      postElement.className = 'post-thumbnail';
-
-      postElement.setAttribute('data-caption', post.caption || '');
-
-      
-
-      postElement.innerHTML = `
-
-        <img src="../backend/${post.image}" alt="Post">
-
-        ${post.isPrivate ? '<div class="private-indicator"><i class="fa-solid fa-lock"></i></div>' : ''}
-
-        <div class="post-thumbnail-overlay">
-
-          <div class="post-thumbnail-icons">
-
-          <!here -->
-          </div>
-
-        </div>
-
-      `;
-
-      
-
-      grid.appendChild(postElement);
-
-    });
-
-    
-
-    profileContent.innerHTML = '';
-
-    profileContent.appendChild(grid);
-
-    
-
-    setupPostFilters();
-
+// Fixed renderPosts function - replace the existing one
+function renderPosts(posts) {
+  if (posts.length === 0) {
+    profileContent.innerHTML = `
+      <div class="empty-state">
+        <i class="fa-solid fa-camera-retro empty-icon"></i>
+        <p class="empty-text">You haven't posted anything yet.</p>
+        <a href="upload.html" class="profile-action-btn">
+          <i class="fa-solid fa-plus"></i> Create First Post
+        </a>
+      </div>
+    `;
+    return;
   }
-
   
+  const grid = document.createElement('div');
+  grid.className = 'post-grid';
+  
+  posts.forEach(post => {
+    const postElement = document.createElement('div');
+    postElement.className = 'post-thumbnail';
+    postElement.setAttribute('data-caption', post.caption || '');
+    
+    // Check if current user owns this post
+    const isOwner = post.username === currentUsername;
+    const isPrivate = post.isPrivate || post.private; // Handle both property names
+    
+    postElement.innerHTML = `
+      <img src="../backend/${post.image}" alt="Post">
+      ${isPrivate ? '<div class="private-indicator"><i class="fa-solid fa-lock"></i></div>' : ''}
+      <div class="post-thumbnail-overlay">
+        <div class="post-thumbnail-icons">
+          ${isOwner ? `
+            <div class="post-thumbnail-icon" onclick="showDeleteModal(${post.id})" title="Delete post">
+              <i class="fa-solid fa-trash"></i>
+            </div>
+            <div class="post-thumbnail-icon" onclick="showPrivacyModal(${post.id})" title="Change privacy">
+              <i class="fa-solid fa-${isPrivate ? 'unlock' : 'lock'}"></i>
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+    
+    grid.appendChild(postElement);
+  });
+  
+  profileContent.innerHTML = '';
+  profileContent.appendChild(grid);
+  
+  setupPostFilters();
+}
 
   // Show delete confirmation modal
 
@@ -2454,60 +2467,69 @@ if (publicLinkElement) {
   
 
 // Delete post function
-
-  async function deletePost(postId) {
-
-    try {
-
-      // Call backend API to delete the post
-
-      const formData = new FormData();
-
-      formData.append('postId', postId);
-
-      
-
-      const res = await fetch('../backend/delete_post.php', {
-
-        method: 'POST',
-
-        body: formData
-
-      });
-
-      
-
-      const data = await res.json();
-
-      
-
-      if (data.success) {
-
-        // Remove from current posts and update UI
-
-        currentPosts = currentPosts.filter(post => post.id !== postId);
-
-        postsCount.textContent = currentPosts.length;
-
-        renderPosts(currentPosts);
-
-      } else {
-
-        alert(data.error || 'Failed to delete post');
-
-      }
-
-    } catch (error) {
-
-      console.error('Error deleting post:', error);
-
-      alert('Something went wrong. Please try again.');
-
+// Fixed delete post function
+async function deletePost(postId) {
+  try {
+    const formData = new FormData();
+    formData.append('postId', postId);
+    
+    const res = await fetch('../backend/delete_post.php', {
+      method: 'POST',
+      body: formData
+    });
+    
+    const data = await res.json();
+    
+    if (data.success) {
+      // Remove from current posts and update UI
+      currentPosts = currentPosts.filter(post => post.id != postId); // Use != for type flexibility
+      postsCount.textContent = currentPosts.length;
+      renderPosts(currentPosts);
+      console.log('Post deleted successfully');
+    } else {
+      console.error('Delete error:', data.error);
+      alert(data.error || 'Failed to delete post');
     }
-
+  } catch (error) {
+    console.error('Error deleting post:', error);
+    alert('Something went wrong. Please try again.');
   }
+}
 
-  
+// Fixed toggle post privacy function
+async function updatePostPrivacy(postId, isPrivate) {
+  try {
+    const formData = new FormData();
+    formData.append('postId', postId);
+    formData.append('isPrivate', isPrivate ? 1 : 0);
+    
+    const res = await fetch('../backend/update_privacy.php', {
+      method: 'POST',
+      body: formData
+    });
+    
+    const data = await res.json();
+    
+    if (data.success) {
+      // Update post in current posts array
+      currentPosts = currentPosts.map(post => {
+        if (post.id == postId) { // Use == for type flexibility
+          return { ...post, isPrivate, private: isPrivate }; // Update both properties
+        }
+        return post;
+      });
+      
+      renderPosts(currentPosts);
+      console.log('Privacy updated successfully');
+    } else {
+      console.error('Privacy update error:', data.error);
+      alert(data.error || 'Failed to update privacy settings');
+    }
+  } catch (error) {
+    console.error('Error updating privacy:', error);
+    alert('Something went wrong. Please try again.');
+  }
+}
 
   // Toggle post privacy
 
