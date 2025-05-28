@@ -456,6 +456,15 @@ color: #fff;
       cursor: pointer;
       z-index: 110;
     }
+    
+@media (max-width: 768px) {
+  .fa-magnifying-glass {
+    display: none;
+  }
+}
+.post-action.liked i.fa-heart {
+  color: var(--like-color) !important;
+}
 .bereal-theme .bottom-nav {
 background-color: #000;
 border-top-color: #333;

@@ -29,3 +29,4 @@ if (!is_array($posts)) {
 
 
 echo json_encode($posts);
+//ctr z 1

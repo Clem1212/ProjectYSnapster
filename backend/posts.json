@@ -63,7 +63,9 @@
         "image": "uploads\/photo_682e2eee60a529.24710692.png",
         "caption": "testy",
         "retakes": 1,
-        "likes": [],
+        "likes": [
+            1
+        ],
         "comments": [],
         "isPrivate": true,
         "private": true
@@ -114,7 +116,9 @@
         "image": "uploads\/photo_682e332b3c6505.71254848.png",
         "caption": "test",
         "retakes": 1,
-        "likes": [],
+        "likes": [
+            1
+        ],
         "comments": []
     },
     {
@@ -125,7 +129,8 @@
         "retakes": 1,
         "likes": [
             3,
-            1
+            1,
+            "682a3bc7a4020"
         ],
         "comments": [
             {
@@ -180,6 +185,11 @@
                 "userId": 3,
                 "username": "Clemmm",
                 "comment": "cool hat"
+            },
+            {
+                "userId": "682a3bc7a4020",
+                "username": "Cl3m",
+                "comment": "green"
             }
         ],
         "isPrivate": false,
@@ -192,7 +202,8 @@
         "caption": "",
         "retakes": 1,
         "likes": [
-            2
+            2,
+            "682a3bc7a4020"
         ],
         "comments": [
             {
@@ -204,6 +215,11 @@
                 "userId": 2,
                 "username": "Clement2",
                 "comment": "cool"
+            },
+            {
+                "userId": "682a3bc7a4020",
+                "username": "Cl3m",
+                "comment": "hi"
             }
         ],
         "isPrivate": true,
