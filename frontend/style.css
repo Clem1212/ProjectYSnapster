@@ -457,11 +457,7 @@ color: #fff;
       z-index: 110;
     }
     
-@media (max-width: 768px) {
-  .fa-magnifying-glass {
-    display: none;
-  }
-}
+
 .post-action.liked i.fa-heart {
   color: var(--like-color) !important;
 }
