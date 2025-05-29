@@ -1,80 +1,452 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting to Frontend...</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snapster</title>
+    <link rel="icon" type="image/x-icon" href="/image/logo-removebg-preview.png">
+<script src="/frontend/app.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
     
-    <!-- Instant redirect using meta refresh (0 seconds delay) -->
-    <meta http-equiv="refresh" content="0; url=frontend/index.html">
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      transition: all 0.3s ease;
+    }
     
-    <!-- Fallback JavaScript redirect -->
-    <script>
-        window.location.replace("frontend/index.html");
-    </script>
+    /* Theme Styles */
+    body.bereal-theme {
+      background-color: #141515;
+      color: #333;
+    }
     
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, #ff0000, #cc0000);
-            color: white;
-            text-align: center;
-        }
-        .container {
-            max-width: 400px;
-            padding: 2rem;
-        }
-        .spinner {
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-top: 4px solid white;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .manual-link {
-            display: inline-block;
-            margin-top: 1rem;
-            color: white;
-            text-decoration: underline;
-            cursor: pointer;
-        }
-        .manual-link:hover {
-            opacity: 0.8;
-        }
-    </style>
+    body.instagram-theme {
+      background-color: #d9e0e8;
+      color: #262626;
+    }
+    
+    .container {
+      display: flex;
+      width: 800px;
+      min-height: 500px;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .bereal-theme .container {
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      background-color: white;
+    }
+    
+    .instagram-theme .container {
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+      background-color: white;
+    }
+    
+    .logo-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+      color: white;
+      transition: all 0.3s ease;
+    }
+    
+    .bereal-theme .logo-section {
+      background-color: #000000;
+    }
+    
+    .instagram-theme .logo-section {
+ background-color: #2493e9;    }
+    
+    .logo-section img {
+      width: 150px;
+      height: auto;
+      margin-bottom: 20px;
+    }
+    
+    .logo-section h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .logo-section p {
+      text-align: center;
+      line-height: 1.6;
+    }
+    
+    .forms-section {
+      flex: 1;
+      padding: 40px;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    
+    .theme-switch {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: #777;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 10;
+      width: auto;
+      padding: 5px;
+    }
+    
+    .bereal-theme .theme-switch {
+      color: #333;
+    }
+    
+    .instagram-theme .theme-switch {
+      color: #8e8e8e;
+    }
+    
+    .form-container {
+      transition: all 0.6s ease-in-out;
+    }
+    
+    .login-form {
+      opacity: 1;
+      visibility: visible;
+      transition: all 0.6s ease-in-out;
+    }
+    
+    .signup-form {
+      position: absolute;
+      top: 40px;
+      width: calc(100% - 80px);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.6s ease-in-out;
+    }
+    
+    .forms-section.signup-active .login-form {
+      opacity: 0;
+      visibility: hidden;
+    }
+    
+    .forms-section.signup-active .signup-form {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      transition: color 0.3s ease;
+    }
+    
+    .bereal-theme h2 {
+      color: #333;
+    }
+    
+    .instagram-theme h2 {
+      color: #262626;
+    }
+    
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+    
+    .bereal-theme input {
+      border: 1px solid #ddd;
+      background-color: #fff;
+    }
+    
+    .bereal-theme input:focus {
+      border-color: #000;
+      outline: none;
+    }
+    
+    .instagram-theme input {
+      border: 1px solid #dbdbdb;
+      background-color: #fafafa;
+    }
+    
+    .instagram-theme input:focus {
+      border-color: #a8a8a8;
+      outline: none;
+    }
+    
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .bereal-theme button {
+      background-color: #000;
+      color: white;
+    }
+    
+    .bereal-theme button:hover {
+      background-color: #333;
+    }
+    
+    .instagram-theme button {
+      background-color: #0095f6;
+      color: white;
+    }
+    
+    .instagram-theme button:hover {
+      background-color: #1877f2;
+    }
+    
+    .message {
+      margin-top: 15px;
+      font-size: 14px;
+      min-height: 20px;
+    }
+    
+    .form-switch {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 14px;
+      transition: color 0.3s ease;
+    }
+    
+    .bereal-theme .form-switch {
+      color: #777;
+    }
+    
+    .instagram-theme .form-switch {
+      color: #8e8e8e;
+    }
+    
+    .form-switch a {
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    
+    .bereal-theme .form-switch a {
+      color: #000;
+    }
+    
+    .bereal-theme .form-switch a:hover {
+      text-decoration: underline;
+    }
+    
+    .instagram-theme .form-switch a {
+      color: #0095f6;
+    }
+    
+    .instagram-theme .form-switch a:hover {
+      color: #00376b;
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        width: 90%;
+      }
+      
+      .logo-section {
+        padding: 30px;
+      }
+      
+      .forms-section {
+        padding: 30px;
+      }
+      
+      .signup-form {
+        top: 30px;
+        width: calc(100% - 60px);
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="spinner"></div>
-        <h1>Redirecting to Frontend...</h1>
-        <p>You will be redirected automatically in a moment.</p>
-        <a href="frontend/index.html" class="manual-link">
-            Click here if you're not redirected automatically
-        </a>
+  <div class="container">
+    <div class="logo-section">
+      <img src="/image/logo2.png" alt="Snapster Logo" style="width:260px">
+     
+      <p>Connect with friends and share your moments instantly with Snapster.</p>
     </div>
+    
+    <div class="forms-section" id="formsSection">
+      <button id="themeSwitch" class="theme-switch">
+        <i class="fa-solid fa-sun theme-icon"></i>
+      </button>
+      
+      <div class="form-container login-form">
+        <center>      <img src="/image/logo2.png" alt="Snapster Logo" style="width:200px"></center>
+        <br> <br> <br> 
+        <input id="loginUser" placeholder="Username" />
+        <input id="loginPass" type="password" placeholder="Password" />
+        <button onclick="login()">Log In</button>
+        <p class="message" id="loginMsg"></p>
+        <div class="form-switch">
+          Don't have an account? <a onclick="toggleForms()">Sign Up</a>
+        </div>
+      </div>
+      
+      <div class="form-container signup-form">
+        <h2>Create Account</h2>
+        <input id="signupUser" placeholder="Username" />
+        <input id="signupPass" type="password" placeholder="Password" />
+        <button onclick="signup()">Sign Up</button>
+        <p class="message" id="signupMsg"></p>
+        <div class="form-switch">
+          Already have an account? <a onclick="toggleForms()">Log In</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <!-- Additional JavaScript for immediate redirect -->
-    <script>
-        // Triple redundancy for instant redirect
-        setTimeout(function() {
-            window.location.href = "frontend/index.html";
-        }, 100);
-        
-        // Immediate redirect
-        if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
-            window.location.replace("frontend/index.html");
+  <script>
+    // Apply saved theme on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('theme') || 'bereal';
+      const body = document.body;
+      const themeSwitch = document.getElementById('themeSwitch');
+      
+      if (savedTheme === 'instagram') {
+        body.classList.add('instagram-theme');
+        themeSwitch.innerHTML = '<i class="fa-solid fa-moon theme-icon"></i>';
+      } else {
+        body.classList.add('bereal-theme');
+        themeSwitch.innerHTML = '<i class="fa-solid fa-sun theme-icon"></i>';
+      }
+    });
+
+    // Theme switcher
+    document.getElementById('themeSwitch').addEventListener('click', () => {
+      const body = document.body;
+      const themeSwitch = document.getElementById('themeSwitch');
+      
+      if (body.classList.contains('bereal-theme')) {
+        body.classList.remove('bereal-theme');
+        body.classList.add('instagram-theme');
+        themeSwitch.innerHTML = '<i class="fa-solid fa-moon theme-icon"></i>';
+        localStorage.setItem('theme', 'instagram');
+      } else {
+        body.classList.remove('instagram-theme');
+        body.classList.add('bereal-theme');
+        themeSwitch.innerHTML = '<i class="fa-solid fa-sun theme-icon"></i>';
+        localStorage.setItem('theme', 'bereal');
+      }
+    });
+
+    function toggleForms() {
+      const formsSection = document.getElementById('formsSection');
+      formsSection.classList.toggle('signup-active');
+      
+      // Clear messages when switching forms
+      document.getElementById('loginMsg').innerText = '';
+      document.getElementById('signupMsg').innerText = '';
+      
+      // Clear inputs when switching forms
+      if (formsSection.classList.contains('signup-active')) {
+        document.getElementById('loginUser').value = '';
+        document.getElementById('loginPass').value = '';
+      } else {
+        document.getElementById('signupUser').value = '';
+        document.getElementById('signupPass').value = '';
+      }
+    }
+
+    async function login() {
+      const username = document.getElementById('loginUser').value.trim();
+      const password = document.getElementById('loginPass').value.trim();
+      const loginMsg = document.getElementById('loginMsg');
+      
+      loginMsg.innerText = '';
+      
+      if (!username || !password) {
+        loginMsg.innerText = 'Please fill all fields';
+        return;
+      }
+      
+      try {
+        const formData = new FormData();
+        formData.append('username', username);
+        formData.append('password', password);
+
+        const res = await fetch('../backend/login.php', { method: 'POST', body: formData });
+        const data = await res.json();
+
+        if (data.success) {
+          loginMsg.style.color = 'green';
+          loginMsg.innerText = 'Login successful! Redirecting...';
+          setTimeout(() => {
+            window.location.href = 'feed.html';
+          }, 1000);
+        } else {
+          loginMsg.style.color = '#e74c3c';
+          loginMsg.innerText = data.error || 'Login failed. Please check your credentials.';
         }
-    </script>
+      } catch (error) {
+        loginMsg.style.color = '#e74c3c';
+        loginMsg.innerText = 'Error connecting to server. Please try again.';
+      }
+    }
+
+    async function signup() {
+      const username = document.getElementById('signupUser').value.trim();
+      const password = document.getElementById('signupPass').value.trim();
+      const signupMsg = document.getElementById('signupMsg');
+      
+      signupMsg.innerText = '';
+      
+      if (!username || !password) {
+        signupMsg.innerText = 'Please fill all fields';
+        return;
+      }
+      
+      try {
+        const formData = new FormData();
+        formData.append('username', username);
+        formData.append('password', password);
+
+        const res = await fetch('../backend/signup.php', { method: 'POST', body: formData });
+        const data = await res.json();
+
+        if (data.success) {
+          signupMsg.style.color = 'green';
+          signupMsg.innerText = 'Account created successfully! You can now log in.';
+          
+          // Automatically switch to login form after successful signup
+          setTimeout(() => {
+            toggleForms();
+            document.getElementById('loginUser').value = username;
+          }, 1500);
+        } else {
+          signupMsg.style.color = '#e74c3c';
+          signupMsg.innerText = data.error || 'Signup failed. Please try again.';
+        }
+      } catch (error) {
+        signupMsg.style.color = '#e74c3c';
+        signupMsg.innerText = 'Error connecting to server. Please try again.';
+      }
+    }
+  </script>
 </body>
 </html>
