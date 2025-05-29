@@ -510,6 +510,9 @@
   <h2>Take a Photo</h2>
 
   <video id="video" autoplay playsinline width="320" height="240"></video>
+  <button id="switch-camera-btn" class="camera-btn">
+  <i class="fa-solid fa-refresh"></i> Switch Camera
+</button>
   <button id="captureBtn">Capture Photo</button>
   <p>Retakes: <span id="retakeCount">0</span></p>
 
@@ -623,14 +626,30 @@ uploadVideoBtn.onclick = async () => {
 
     let retakeCount = 0;
 
-    // Start camera
-    async function startCamera() {
-     
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        video.srcObject = stream;
-      
-    }
-    startCamera();
+    let currentFacingMode = "user"; // "user" = front, "environment" = back
+let currentStream = null;
+
+async function startCamera(facingMode = "user") {
+  if (currentStream) {
+    currentStream.getTracks().forEach(track => track.stop());
+  }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode }
+    });
+    video.srcObject = stream;
+    currentStream = stream;
+  } catch (err) {
+    msg.innerText = "Camera error: " + err.message;
+  }
+}
+
+document.getElementById('switch-camera-btn').onclick = async () => {
+  currentFacingMode = currentFacingMode === "user" ? "environment" : "user";
+  await startCamera(currentFacingMode);
+};
+
+startCamera();
 
     captureBtn.onclick = () => {
       const ctx = canvas.getContext('2d');
@@ -835,6 +854,9 @@ function loadFeed() {
     stroke-linejoin: round;
     stroke-linecap: round;
   }
+  @media (min-width: 768px) {
+  #switch-camera-btn { display: none; }
+}
 </style>
 
 </body>
