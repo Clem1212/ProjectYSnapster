@@ -164,5 +164,57 @@
         "sender_name": "Cl3m",
         "timestamp": "2025-05-27 16:15:04",
         "type": "text"
+    },
+    {
+        "from": "682de14c55d39",
+        "to": "682f2fbce0ef6",
+        "message": "yoo",
+        "sender_name": "Clemmm",
+        "timestamp": "2025-05-28 22:26:18",
+        "type": "text"
+    },
+    {
+        "from": "682f2fbce0ef6",
+        "to": "682de14c55d39",
+        "message": "",
+        "photo": "uploads\/photo_68378d9971208.jpg",
+        "sender_name": "Clement2",
+        "timestamp": "2025-05-28 22:26:33",
+        "type": "photo"
+    },
+    {
+        "from": "682a3bc7a4020",
+        "to": "682f2fbce0ef6",
+        "message": "",
+        "voice": "uploads\/voice_68427c7cc2c24.webm",
+        "sender_name": "Cl3m",
+        "timestamp": "2025-06-06 05:28:28",
+        "type": "voice"
+    },
+    {
+        "from": "682a3bc7a4020",
+        "to": "682a3a51b0299",
+        "message": "",
+        "voice": "uploads\/voice_68427f4741007.webm",
+        "sender_name": "Cl3m",
+        "timestamp": "2025-06-06 05:40:23",
+        "type": "voice"
+    },
+    {
+        "from": "682a3bc7a4020",
+        "to": "682de14c55d39",
+        "message": "",
+        "voice": "uploads\/voice_68427f5748ab4.webm",
+        "sender_name": "Cl3m",
+        "timestamp": "2025-06-06 05:40:39",
+        "type": "voice"
+    },
+    {
+        "from": "682a3bc7a4020",
+        "to": "682a3a51b0299",
+        "message": "e",
+        "sender_name": "Cl3m",
+        "timestamp": "2025-06-06 05:41:09",
+        "type": "text"
     }
 ]

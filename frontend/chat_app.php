@@ -52,7 +52,41 @@ if (isset($_POST['login'])) {
         $_SESSION['user'] = $new_user;
     }
 }
-
+if (isset($_POST['send_voice']) && isset($_SESSION['user'])) {
+    $to_code = trim($_POST['receiver_code']);
+    $receiver = null;
+    foreach ($users as $u) {
+        if ($u['friend_code'] === $to_code) {
+            $receiver = $u;
+            break;
+        }
+    }
+    if ($receiver && isset($_FILES['voice_data'])) {
+        $voiceFile = $_FILES['voice_data'];
+        $ext = pathinfo($voiceFile['name'], PATHINFO_EXTENSION);
+        $filename = 'voice_' . uniqid() . '.' . $ext;
+        $filepath = 'uploads/' . $filename;
+        if (move_uploaded_file($voiceFile['tmp_name'], $filepath)) {
+            $messages[] = [
+                'from' => $_SESSION['user']['id'],
+                'to' => $receiver['id'],
+                'message' => '',
+                'voice' => $filepath,
+                'sender_name' => $_SESSION['user']['username'],
+                'timestamp' => date("Y-m-d H:i:s"),
+                'type' => 'voice'
+            ];
+            save_messages($messages);
+            echo json_encode(['success' => true]);
+        } else {
+            echo json_encode(['success' => false, 'error' => 'Failed to save voice']);
+        }
+        exit;
+    } else {
+        echo json_encode(['success' => false, 'error' => 'Invalid receiver or voice data']);
+        exit;
+    }
+}
 // Handle photo upload
 if (isset($_POST['send_photo']) && isset($_SESSION['user'])) {
     $to_code = trim($_POST['receiver_code']);
@@ -872,10 +906,18 @@ window.addEventListener('click', (event) => {
             <button type="button" class="camera-icon-btn" onclick="openCamera(document.getElementById('receiver_code').value)">
                 <i class="fa-solid fa-camera"></i>
             </button>
+            
+
             <button type="submit" name="send_message" class="send-btn">
                 <i class="fa-solid fa-paper-plane"></i>
             </button>
+
+            
         </div>
+                    <!-- Add this inside .message-input-container, next to the camera button -->
+<button type="button" class="quick-voice-btn" id="voiceRecordBtn" title="Record Voice">
+  <i class="fa-solid fa-microphone"></i>
+</button>
     </form>
 
     <?php if (isset($error)): ?>
@@ -883,13 +925,31 @@ window.addEventListener('click', (event) => {
     <?php endif; ?>
 
     <?php if (!empty($chat_users)): ?>
-        <div class="chat-tabs">
-            <?php foreach ($chat_users as $id => $user): ?>
-                <a href="?chat_with=<?= $id ?>" class="<?= ($chat_with === $id ? 'active' : '') ?>">
-                    <?= htmlspecialchars($user['username']) ?>
-                </a>
-            <?php endforeach; ?>
-        </div>
+        <!-- Update the chat user tab links to include a data-code attribute and add a class for JS -->
+<div class="chat-tabs">
+    <?php foreach ($chat_users as $id => $user): ?>
+        <a href="?chat_with=<?= $id ?>" class="chat-user-link<?= ($chat_with === $id ? ' active' : '') ?>"
+           data-code="<?= htmlspecialchars($user['friend_code']) ?>">
+            <?= htmlspecialchars($user['username']) ?>
+        </a>
+    <?php endforeach; ?>
+</div>
+<script>
+// Auto-fill friend code when clicking username in chat list
+document.querySelectorAll('.chat-user-link').forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const code = this.getAttribute('data-code');
+        const receiverInput = document.getElementById('receiver_code');
+        if (receiverInput) {
+            receiverInput.value = code;
+            receiverInput.focus();
+        }
+        // Optionally, also switch chat (uncomment next line if you want to load chat)
+        // window.location = this.href;
+    });
+});
+</script>
     <?php endif; ?>
 
     <div class="chat-box">
@@ -908,12 +968,20 @@ window.addEventListener('click', (event) => {
                 <div class="message-bubble <?= $bubble_class ?> <?= $message_type === 'photo' ? 'photo-message' : '' ?>">
                     <?php if ($message_type === 'photo' && isset($msg['photo'])): ?>
                         <img src="<?= htmlspecialchars($msg['photo']) ?>" alt="Photo message" style="max-width: 250px; border-radius: 10px;">
-                    <?php else: ?>
-                        <?= nl2br(htmlspecialchars($msg['message'])) ?>
-                    <?php endif; ?>
-                    <span class="timestamp"><?= htmlspecialchars($msg['sender_name']) ?> • <?= $msg['timestamp'] ?></span>
-                </div>
-                <div class="clearfix"></div>
+                    <!-- Add this inside .message-input-container, next to the camera button -->
+                    <button type="button" class="voice-icon-btn" id="voiceRecordBtn" title="Record Voice">
+                      <i class="fa-solid fa-microphone"></i>
+                    </button>                    <?php elseif ($message_type === 'voice' && isset($msg['voice'])): ?>
+        <audio controls style="width: 200px;">
+            <source src="<?= htmlspecialchars($msg['voice']) ?>" type="audio/webm">
+            Your browser does not support the audio element.
+        </audio>
+    <?php else: ?>
+        <?= nl2br(htmlspecialchars($msg['message'])) ?>
+    <?php endif; ?>
+    <span class="timestamp"><?= htmlspecialchars($msg['sender_name']) ?> • <?= $msg['timestamp'] ?></span>
+</div>
+<div class="clearfix"></div>
             <?php endforeach; ?>
         <?php elseif ($chat_with): ?>
             <p>No messages yet. Say hi or send a photo!</p>
@@ -1724,6 +1792,51 @@ function viewFullSizePhoto(src) {
 // Service Worker for offline functionality (optional)
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js').catch(console.error);
+}
+
+// Voice recording functionality
+let mediaRecorder;
+let audioChunks = [];
+let isRecording = false;
+const voiceBtn = document.getElementById('voiceRecordBtn');
+
+if (voiceBtn) {
+  voiceBtn.addEventListener('click', async () => {
+    if (!isRecording) {
+      // Start recording
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+        mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+        mediaRecorder.onstop = async () => {
+          const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+          const formData = new FormData();
+          formData.append('send_voice', '1');
+          formData.append('receiver_code', document.getElementById('receiver_code').value);
+          formData.append('voice_data', audioBlob, 'voice.webm');
+          try {
+            const response = await fetch('', { method: 'POST', body: formData });
+            const result = await response.json();
+            if (result.success) location.reload();
+            else alert('Failed to send voice: ' + (result.error || 'Unknown error'));
+          } catch (err) {
+            alert('Failed to send voice');
+          }
+        };
+        mediaRecorder.start();
+        isRecording = true;
+        voiceBtn.innerHTML = '<i class="fa-solid fa-stop"></i>';
+      } catch (err) {
+        alert('Microphone access denied.');
+      }
+    } else {
+      // Stop recording
+      mediaRecorder.stop();
+      isRecording = false;
+      voiceBtn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
+    }
+  });
 }
 </script>
 
