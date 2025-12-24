@@ -1,0 +1,1861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snapster</title>
+    <link rel="icon" type="image/x-icon" href="/image/logo-removebg-preview.png">
+<script src="/frontend/app.js"></script>
+     <link rel="stylesheet" href="/frontend/style.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    /* Modern Social Media App - Feed Page */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #fafafa;
+      color: #262626;
+      line-height: 1.5;
+      padding-bottom: 60px; /* Space for mobile nav */
+    }
+    footer {
+    background-color: #222; /* or whatever color you want */
+    color: #fff;
+}
+
+   /* theme.css */
+.instagram-theme {
+  --bg-color: #fafafa;
+  --card-bg: #ffffff;
+  --text-color: #262626;
+  --text-secondary: #8e8e8e;
+  --border-color: #dbdbdb;
+  --primary-color: #0095f6;
+  --like-color: #ed4956;
+  --header-bg: #ffffff;
+}
+.bereal-theme input,
+.bereal-theme textarea {
+  background-color: #1e1e1e;
+  color: #fff;
+}
+
+.bereal-theme input::placeholder,
+.bereal-theme textarea::placeholder {
+  color: #a8a8a8;
+  opacity: 1;
+}
+.bereal-theme {
+  --bg-color: #000000;
+  --card-bg: #121212;
+  --text-color: #ffffff;
+  --text-secondary: #a8a8a8;
+  --border-color: #333333;
+  --primary-color: #FF375F;
+  --like-color: #FF375F;
+  --header-bg: #000000;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+    
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+    
+    /* Header */
+    .app-header {
+      position: sticky;
+      top: 0;
+      background-color: var(--header-bg);
+      border-bottom: 1px solid var(--border-color);
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-color);
+      text-decoration: none;
+    }
+    
+    .header-icons {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .header-icon {
+      font-size: 20px;
+      color: var(--text-color);
+      cursor: pointer;
+    }
+    
+    /* Feed posts */
+    .feed-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding-top: 20px;
+    }
+    
+    .post {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    
+    .post-header {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .post-user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: #efefef;
+      margin-right: 10px;
+      overflow: hidden;
+    }
+    
+    .post-user-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .post-user-info {
+      flex-grow: 1;
+    }
+    
+    .post-user-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text-color);
+    }
+    
+    .post-time {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    
+    .post-more {
+      color: var(--text-color);
+      font-size: 20px;
+      cursor: pointer;
+    }
+    
+    .post-image-container {
+      position: relative;
+      width: 100%;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+    }
+    
+    .post-image {
+      width: 100%;
+      display: block;
+      max-height: 600px;
+      object-fit: contain;
+    }
+    
+    .retake-badge {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    .post-actions {
+      display: flex;
+      padding: 8px 16px;
+      border-top: 1px solid var(--border-color);
+    }
+    
+    .post-action {
+      margin-right: 16px;
+      color: var(--text-color);
+      font-size: 24px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      display: flex;
+      align-items: center;
+      padding: 0;
+    }
+    
+    .post-action.liked {
+      color: var(--like-color);
+    }
+    
+    .post-action span {
+      font-size: 14px;
+      margin-left: 6px;
+      font-weight: 500;
+    }
+    
+    .post-caption {
+      padding: 12px 16px;
+      font-size: 14px;
+      color: var(--text-color);
+    }
+    
+    .post-caption-username {
+      font-weight: 600;
+      margin-right: 5px;
+    }
+    
+    .comment-section {
+      padding: 0 16px 16px;
+      border-top: 1px solid var(--border-color);
+    }
+    
+    .comment-header {
+      padding: 12px 0;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text-color);
+    }
+    
+    .comment {
+      padding: 6px 0;
+      font-size: 14px;
+      color: var(--text-color);
+    }
+    
+    .comment-username {
+      font-weight: 600;
+      margin-right: 4px;
+    }
+    
+    .add-comment {
+      display: flex;
+      padding: 12px;
+      align-items: center;
+    }
+    
+    .comment-input {
+      flex: 1;
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 8px 16px;
+      background-color: transparent;
+      color: var(--text-color);
+      font-size: 14px;
+    }
+    
+    .comment-input:focus {
+      outline: none;
+      border-color: var(--text-secondary);
+    }
+    
+    .comment-button {
+      margin-left: 8px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 24px;
+      padding: 8px 16px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    
+    /* BeReal notification */
+    .bereal-notification {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--primary-color);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      max-width: 90%;
+    }
+    
+    .notification-icon {
+      font-size: 18px;
+      margin-right: 8px;
+    }
+    
+    .notification-text {
+      font-weight: 600;
+    }
+    
+    .countdown {
+      margin-left: 8px;
+      font-weight: 700;
+      color: white;
+    }
+    
+  
+    
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 12px;
+    }
+    
+    .nav-icon {
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+    
+    /* Page specific elements */
+    .page-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-color);
+      padding: 16px;
+      text-align: left;
+    }
+    
+    .action-link {
+      display: inline-block;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 24px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-bottom: 20px;
+      transition: background-color 0.2s;
+    }
+    
+    .action-link:hover {
+      background-color: var(--primary-color);
+      opacity: 0.9;
+    }
+    
+    .logout-btn {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background-color: transparent;
+      color: var(--text-color);
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 110;
+    }
+    
+    /* Toggle theme button */
+    .theme-switch {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      margin-left: auto;
+      margin-right: 16px;
+    }
+    
+    .theme-icon {
+      font-size: 18px;
+      color: var(--text-color);
+    }
+    
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-secondary);
+    }
+    
+    .empty-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+    
+    .empty-text {
+      font-size: 16px;
+      margin-bottom: 24px;
+    }
+    
+    /* Loading spinner */
+    .loading {
+      display: flex;
+      justify-content: center;
+      padding: 40px 0;
+    }
+    
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      border-left-color: var(--primary-color);
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Media queries */
+    @media (min-width: 768px) {
+      .bottom-nav {
+        display: none;
+      }
+      
+      body {
+        padding-bottom: 0;
+      }
+    }
+    
+
+
+    
+
+  </style>
+  <style>
+    .theme-switch {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-size: 20px;
+  z-index: 10;
+  padding: 5px;
+}body.bereal-theme {
+  background-color: #000000;
+  color: #333;
+}
+
+/* BeReal input */
+.bereal-theme input {
+  border: 1px solid #ddd;
+  background-color: #fff;
+}
+
+.bereal-theme input:focus {
+  border-color: #000;
+}
+
+/* BeReal button */
+.bereal-theme button {
+  background-color:--text-color;
+  color: white;
+}
+
+.bereal-theme button:hover {
+  background-color: #333;
+}body.instagram-theme {
+  background-color: #fafafa;
+  color: #262626;
+}
+
+/* Instagram input */
+.instagram-theme input {
+  border: 1px solid #dbdbdb;
+  background-color: #fafafa;
+}
+
+.instagram-theme input:focus {
+  border-color: #a8a8a8;
+}
+
+/* Instagram button */
+.instagram-theme button {
+  background-color: --text-color;
+  color: var(--text-secondary);
+}
+
+.comment-section {
+  max-height: 120px; /* Adjust based on how much space you want */
+  overflow-y: auto;
+  padding-right: 5px; /* Prevent scrollbar overlap */
+}
+
+/* Add this CSS inside your <style> tag in <head> for circle management modal and items */
+.circle-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  background: var(--card-bg);
+  transition: box-shadow 0.2s;
+}
+.circle-item:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+.action-btn {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+.action-btn:hover {
+  background: var(--primary-color);
+  color: #fff;
+}
+.new-circle-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.form-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-color);
+}
+.form-input {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  font-size: 14px;
+}
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+.create-circle-btn {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.2s;
+}
+.create-circle-btn:hover {
+  opacity: 0.9;
+}
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 400px;
+  width: 95%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 16px;
+}
+.modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-color);
+}
+.close-modal {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: var(--text-color);
+  cursor: pointer;
+}
+.circle-section {
+  margin-bottom: 24px;
+}
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 12px;
+}
+@media (max-width: 600px) {
+  .modal {
+    padding: 10px;
+    max-width: 98vw;
+  }
+}
+  </style>
+  <!-- Add this CSS block inside your <head> section, after your other <style> tags -->
+  <style>
+/* Stories/Circles Feature Styles */
+.stories-container {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+.stories-container::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+.stories-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.stories-title {
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--text-color);
+}
+.manage-circles-btn {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.stories-list {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.stories-list::-webkit-scrollbar {
+  display: none;
+}
+.story-circle {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.story-circle:hover {
+  transform: scale(1.05);
+}
+.story-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #fd5949, #d6249f, #285AEB);
+  padding: 2px;
+  margin-bottom: 4px;
+  position: relative;
+}
+.story-avatar.viewed {
+  background: #c7c7c7;
+}
+.story-avatar.own {
+  background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
+}
+.story-image {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  border: 2px solid var(--card-bg);
+  object-fit: cover;
+}
+.story-username {
+  font-size: 12px;
+  color: var(--text-color);
+  text-align: center;
+  max-width: 70px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.add-story {
+  position: relative;
+}
+.add-story-icon {
+  position: absolute;
+  bottom: 8px;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background-color: var(--primary-color);
+  border: 2px solid var(--card-bg);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+}
+/* Circle Filter */
+.circle-filter {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 12px 0;
+  margin-bottom: 16px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.circle-filter::-webkit-scrollbar {
+  display: none;
+}
+.filter-chip {
+  flex-shrink: 0;
+  padding: 6px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.filter-chip.active {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+.filter-chip:hover {
+  border-color: var(--primary-color);
+}
+/* Post audience indicator */
+.post-audience {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.audience-text {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+@media (max-width: 768px) {
+  .stories-list {
+    gap: 8px;
+  }
+  .story-circle {
+    min-width: 70px;
+  }
+}
+ .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 999;
+  }
+  .modal {
+   
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+  }
+  .hidden {
+    display: none;
+  }
+
+  /* Story Viewer Styles */
+.story-viewer {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #000;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+}
+.story-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 100%);
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 10;
+}
+.story-user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.story-user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #444;
+}
+.story-user-details h4 {
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+}
+.story-user-details p {
+  color: #ccc;
+  font-size: 12px;
+}
+.story-controls {
+  display: flex;
+  gap: 16px;
+}
+.story-control-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+.story-progress {
+  position: absolute;
+  top: 60px;
+  left: 16px;
+  right: 16px;
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 1px;
+  z-index: 10;
+}
+.story-progress-bar {
+  height: 100%;
+  background-color: white;
+  border-radius: 1px;
+  width: 0%;
+  transition: width 0.1s linear;
+}
+.story-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.story-navigation {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  cursor: pointer;
+  z-index: 5;
+}
+.story-nav-prev { left: 0; }
+.story-nav-next { right: 0; }
+#storyMedia img, #storyMedia video {
+  max-width: 90vw;
+  max-height: 80vh;
+  border-radius: 12px;
+  background: #222;
+}
+.hidden { display: none !important; }
+  </style>
+</head>
+<body >
+
+  <div class="app-header">
+    <div class="header-content">
+   
+<div class="logo>
+
+ <img id="logo-img" src="/image/logo2.png" style="width: 120px; height: auto;">
+
+</div>    
+      <div class="theme-switch" id="themeSwitch">
+        <i class="fa-solid fa-sun theme-icon"></i>
+      </div>
+      <!-- icons-->
+      <div class="header-icons">
+        <a href="/frontend/profile.html" class="nav-item">
+  <i class="fa-solid fa-user header-icon"></i>
+        </a>
+      
+ 
+         <a href="/frontend/chat_app.php" class="nav-item">
+        <i class="fa-solid fa-message" style="font-size: 20px;"></i>
+        </a>
+          <a href="/frontend/search.php" class="nav-item" >
+       <i class="fa-solid fa-magnifying-glass"style="font-size: 20px;" ></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container">
+    <button id="logoutBtn" class="logout-btn">
+      <i class="fa-solid fa-right-from-bracket" style="font-size: 25px;color: var(--text-color);"></i>
+    </button>
+    
+    <div class="page-title"><img id="logo-img" src="/image/logo2.png" style="width: 180px; height: auto;"></div>
+
+<!-- Stories/Circles Section -->
+<div class="stories-container">
+  <div class="stories-header">
+    <h3 class="stories-title">Stories</h3>
+    <button class="manage-circles-btn" onclick="openCircleManager()">Manage Circles</button>
+  </div>
+  <div class="stories-list" id="storiesList">
+    <!-- Your Story (Add Story) -->
+    <div class="story-circle add-story" onclick="openAddStory()">
+      <div class="story-avatar own">
+        <div class="story-image"></div>
+        <div class="add-story-icon">
+          <i class="fa-solid fa-plus"></i>
+        </div>
+      </div>
+      <span class="story-username">Post</span>
+    </div>
+    <!-- Stories will be dynamically added here -->
+  </div>
+</div>
+
+<!-- Circle Filter -->
+<div class="circle-filter" id="circleFilter">
+  <div class="filter-chip active" data-circle="all" style="border:2px solid #bbb;">All Posts</div>
+  <div class="filter-chip" data-circle="close-friends" style="border:2px solid #FF375F;">Close Friends</div>
+  <div class="filter-chip" data-circle="family" style="border:2px solid #0095f6;">Family</div>
+  <div class="filter-chip" data-circle="work" style="border:2px solid #28a745;">Work</div>
+</div>
+  
+    
+    <div id="feed" class="feed-container">
+      <!-- Feed content will be dynamically inserted here -->
+      <div class="loading">
+        <div class="spinner"></div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="bottom-nav">
+    <a href="feed.html" class="nav-item">
+      <i class="fa-solid fa-home nav-icon"></i>
+      <span>Home</span>
+    </a>
+    <a href="/frontend/search.php" class="nav-item">
+      <i class="fa-solid fa-magnifying-glass nav-icon"></i>
+      <span>Search</span>
+    </a>
+    <a href="upload.html" class="nav-item">
+      <i class="fa-solid fa-square-plus nav-icon"></i>
+      <span>Upload</span>
+    </a>
+    <a href="chat_app.php" class="nav-item">
+      <i class="fa-solid fa-bell nav-icon"></i>
+      <span>Messages</span>
+    </a>
+    <a href="/frontend/profile.html" class="nav-item">
+      <i class="fa-solid fa-user nav-icon"></i>
+      <span>Profile</span>
+    </a>
+  </div>
+
+  <!-- Add this modal just before </body> -->
+<div class="modal-overlay hidden" id="circleModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title">Manage Circles</h2>
+      <button class="close-modal" onclick="closeCircleManager()">&times;</button>
+    </div>
+    <div class="circle-section">
+      <h3 class="section-title">Your Circles</h3>
+      <div id="circlesList"></div>
+    </div>
+    <div class="circle-section">
+      <h3 class="section-title">Create New Circle</h3>
+      <div class="new-circle-form">
+        <div class="form-group">
+          <label class="form-label">Circle Name</label>
+          <input type="text" id="circleName" class="form-input" placeholder="e.g., Friends, Family" style="color:#000">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Add Poster Names<br>
+            <span style="font-weight:normal;font-size:12px;">(separate by spaces or commas)</span>
+          </label>
+          <input type="text" id="circleMembers" class="form-input" placeholder="e.g., alice bob,charlie" style="color:#000">
+        </div>
+        <button class="create-circle-btn" onclick="createCircle()">Create Circle</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Story Viewer -->
+<div class="story-viewer hidden" id="storyViewer">
+  <div class="story-header">
+    <div class="story-user-info">
+      <div class="story-user-avatar" id="storyUserAvatar"></div>
+      <div class="story-user-details">
+        <h4 id="storyUsername">Username</h4>
+        <p id="storyTime">2h ago</p>
+      </div>
+    </div>
+    <div class="story-controls">
+      <button class="story-control-btn" onclick="closeStoryViewer()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+  </div>
+  <div class="story-progress">
+    <div class="story-progress-bar" id="storyProgressBar"></div>
+  </div>
+  <div class="story-content">
+    <div class="story-navigation story-nav-prev" onclick="previousStory()"></div>
+    <div class="story-navigation story-nav-next" onclick="nextStory()"></div>
+    <div id="storyMedia"></div>
+  </div>
+</div>
+
+<script>
+  // Apply saved theme on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('theme') || 'bereal';
+      const body = document.body;
+      const themeSwitch = document.getElementById('themeSwitch');
+      
+      if (savedTheme === 'instagram') {
+        body.classList.add('instagram-theme');
+        themeSwitch.innerHTML = '<i class="fa-solid fa-moon theme-icon"></i>';
+      } else {
+        body.classList.add('bereal-theme');
+        themeSwitch.innerHTML = '<i class="fa-solid fa-sun theme-icon"></i>';
+      }
+
+      fetchFeed(); // <-- Add this to auto-load the feed
+    });
+
+    // Theme switcher
+    document.getElementById('themeSwitch').addEventListener('click', () => {
+      const body = document.body;
+      const themeSwitch = document.getElementById('themeSwitch');
+      
+      if (body.classList.contains('bereal-theme')) {
+        body.classList.remove('bereal-theme');
+        body.classList.add('instagram-theme');
+        themeSwitch.innerHTML = '<i class="fa-solid fa-moon theme-icon"></i>';
+        localStorage.setItem('theme', 'instagram');
+      } else {
+        body.classList.remove('instagram-theme');
+        body.classList.add('bereal-theme');
+        themeSwitch.innerHTML = '<i class="fa-solid fa-sun theme-icon"></i>';
+        localStorage.setItem('theme', 'bereal');
+      }
+    });
+
+    // Logout functionality
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      window.location.href = '../frontend/index.html';
+    });
+
+    // BeReal notification system
+    let berealActive = false;
+    let nextBeRealTime = null;
+    let notificationElement = null;
+
+    function scheduleNextBeReal() {
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+      // Random hour between 8 AM (8) and 10 PM (22)
+      const hour = Math.floor(Math.random() * (22 - 8 + 1)) + 8;
+      const minute = Math.floor(Math.random() * 60);
+
+      nextBeRealTime = new Date(today.getTime());
+      nextBeRealTime.setHours(hour, minute, 0, 0);
+
+      // If that time already passed today, schedule for tomorrow
+      if (nextBeRealTime <= now) {
+        nextBeRealTime.setDate(nextBeRealTime.getDate() + 1);
+      }
+
+      console.log("Next BeReal notification at: " + nextBeRealTime);
+    }
+
+    function showBeRealNotification() {
+      if (notificationElement) {
+        document.body.removeChild(notificationElement);
+      }
+
+      notificationElement = document.createElement('div');
+      notificationElement.className = 'bereal-notification';
+      notificationElement.innerHTML = `
+        <i class="fa-solid fa-camera notification-icon"></i>
+        <span class="notification-text">It's time to BeReal!</span>
+        <span class="countdown" id="bereal-countdown">2:00</span>
+      `;
+      document.body.appendChild(notificationElement);
+
+      // Start countdown
+      let seconds = 120; // 2 minutes
+      const countdownElement = document.getElementById('bereal-countdown');
+      
+      const countdownInterval = setInterval(() => {
+        seconds--;
+        const minutes = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        countdownElement.textContent = `${minutes}:${secs.toString().padStart(2, '0')}`;
+        
+        if (seconds <= 0) {
+          clearInterval(countdownInterval);
+          if (notificationElement) {
+            document.body.removeChild(notificationElement);
+            notificationElement = null;
+          }
+          berealActive = false;
+          scheduleNextBeReal();
+        }
+      }, 1000);
+    }
+
+    function startBeRealCycle() {
+      scheduleNextBeReal();
+
+      setInterval(() => {
+        if (!berealActive) {
+          const now = new Date();
+          if (now >= nextBeRealTime) {
+            berealActive = true;
+            showBeRealNotification();
+          }
+        }
+      }, 1000); // Check every second
+    }
+
+    startBeRealCycle();
+
+    let currentCircle = "all";
+
+// Circle filter click handler
+document.getElementById('circleFilter').addEventListener('click', function(e) {
+  if (e.target.classList.contains('filter-chip')) {
+    document.querySelectorAll('.filter-chip').forEach(chip => chip.classList.remove('active'));
+    e.target.classList.add('active');
+    currentCircle = e.target.getAttribute('data-circle');
+    fetchFeed(); // re-render feed with filter
+  }
+});
+
+    // Fetch and display the feed
+    async function fetchFeed() {
+      try {
+        const res = await fetch('../backend/feed.php');
+        let posts = await res.json();
+        const feed = document.getElementById('feed');
+
+        // Filter posts by selected circle
+        if (currentCircle !== "all") {
+          posts = posts.filter(post =>
+            Array.isArray(post.visibility) && post.visibility.includes(currentCircle)
+          );
+        }
+
+        if (posts.length === 0) {
+          feed.innerHTML = `
+            <div class="empty-state">
+              <i class="fa-solid fa-camera-retro empty-icon"></i>
+              <p class="empty-text">No posts yet! Be the first to share.</p>
+              <a href="upload.html" class="action-link">Upload Post</a>
+            </div>
+          `;
+          return;
+        }
+        
+        feed.innerHTML = '';
+
+        posts.reverse().forEach(post => {
+          // Ensure comments and likes are always arrays
+          post.comments = Array.isArray(post.comments) ? post.comments : [];
+          post.likes = Array.isArray(post.likes) ? post.likes : [];
+
+          const postEl = document.createElement('div');
+          postEl.className = 'post';
+          postEl.setAttribute('data-visibility', (post.visibility || []).join(','));
+
+          postEl.innerHTML = `
+            <div class="post-header">
+              <div class="post-user-info">
+                <div class="post-user-name">${post.username}</div>
+                <div class="post-time">Posted recently</div>
+              </div>
+              <div class="post-more">
+                <i class="fa-solid fa-ellipsis"></i>
+              </div>
+            </div>
+            <div class="post-image-container">
+              ${
+                post.image
+                  ? `<img src="../backend/${post.image}" alt="Post by ${post.username}" class="post-image">`
+                  : post.video
+                    ? `<video class="post-image" controls>
+                         <source src="../backend/${post.video}" type="video/webm">
+                         Your browser does not support the video tag.
+                       </video>`
+                    : ''
+              }
+              ${
+                post.image
+                  ? `<div class="retake-badge">
+                       <i class="fa-solid fa-arrows-rotate"></i> ${post.retakes || 0} retakes
+                     </div>`
+                  : ''
+              }
+            </div>
+            <div class="post-audience">
+              <span class="audience-icon" style="background:${post.visibilityColor || '#ccc'}"></span>
+              <span class="audience-text">${(post.visibility || []).join(', ')}</span>
+            </div>
+            <div class="post-actions">
+              <button class="post-action" onclick="likePost(${post.id})">
+                <i class="fa-${post.likes.includes(getCurrentUser()) ? 'solid' : 'regular'} fa-heart"></i>
+                <span>${post.likes.length}</span>
+              </button>
+              <button class="post-action" onclick="focusComment(${post.id})">
+                <i class="fa-regular fa-comment"></i>
+                <span>${post.comments.length}</span>
+              </button>
+              <button class="post-action" onclick="sharePost(${post.id})">
+                <i class="fa-regular fa-share-from-square"></i>
+              </button>
+            </div>
+            <div class="post-caption">
+              <span class="post-caption-username">${post.username}</span>
+              ${post.caption}
+            </div>
+            <div class="comment-section" id="comments-${post.id}">
+              ${post.comments.map(c => `
+                <div class="comment">
+                  <span class="comment-username">${c.username}</span>
+                  ${c.comment}
+                </div>
+              `).join('')}
+            </div>
+            <div class="add-comment">
+              <input type="text" id="comment-input-${post.id}" class="comment-input" placeholder="Add a comment..." style="color: black;"/>
+              <button onclick="addComment(${post.id})" class="comment-button">Post</button>
+            </div>
+          `;
+
+          feed.appendChild(postEl);
+        });
+      } catch (error) {
+        console.error('Error fetching feed:', error);
+        document.getElementById('feed').innerHTML = `
+          <div class="empty-state">
+            <p class="empty-text">Something went wrong. Please try again later.</p>
+          </div>
+        `;
+      }
+    }
+
+    // Helper function to get current user (placeholder)
+    function getCurrentUser() {
+      return 'currentUser'; // In a real app, this would come from session/auth
+    }
+
+    // Function to focus on comment input
+    function focusComment(postId) {
+      const commentInput = document.getElementById(`comment-input-${postId}`);
+      if (commentInput) {
+        commentInput.focus();
+      }
+    }
+
+    async function likePost(postId) {
+      const formData = new FormData();
+      formData.append('postId', postId);
+      try {
+        const res = await fetch('../backend/like_post.php', { method: 'POST', body: formData });
+        const data = await res.json();
+        if (data.success) {
+          fetchFeed();
+        } else {
+          alert(data.error || 'Failed to like post');
+        }
+      } catch (error) {
+        console.error('Error liking post:', error);
+        alert('Something went wrong. Please try again.');
+      }
+    }
+
+    async function addComment(postId) {
+      const input = document.getElementById(`comment-input-${postId}`);
+      const comment = input.value.trim();
+      if (!comment) return;
+      const formData = new FormData();
+      formData.append('postId', postId);
+      formData.append('comment', comment);
+      try {
+        const res = await fetch('../backend/add_comment.php', { method: 'POST', body: formData });
+        const data = await res.json();
+        if (data.success) {
+          input.value = '';
+          fetchFeed();
+        } else {
+          alert(data.error || 'Comment failed');
+        }
+      } catch (error) {
+        console.error('Error adding comment:', error);
+        alert('Something went wrong. Please try again.');
+      }
+    }
+function openAddStory() {
+  window.location.href = "upload.html";
+}
+    function sharePost(postId) {
+      const url = `${location.href.split('feed.html')[0]}?post=${postId}`;
+      navigator.clipboard.writeText(url).then(() => {
+        alert('Post URL copied to clipboard!');
+      }).catch(err => {
+        console.error('Could not copy URL: ', err);
+        alert('Could not copy URL. Please share manually.');
+      });
+    }
+
+    // --- Circles Data ---
+let circles = JSON.parse(localStorage.getItem('circles') || '[]');
+
+// Open/close modal
+function openCircleManager() {
+  document.getElementById('circleModal').classList.remove('hidden');
+  renderCirclesList();
+}
+  function closeCircleManager() {
+    document.getElementById('circleModal').classList.add('hidden');
+    const feed = document.getElementById('feed');
+    if (feed) {
+      feed.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (typeof feed.focus === 'function') feed.focus();
+    }
+  }
+// ...
+
+// Render circles in modal
+function renderCirclesList() {
+  const list = document.getElementById('circlesList');
+  if (!circles.length) {
+    list.innerHTML = '<div style="color:var(--text-secondary)">No circles yet.</div>';
+    return;
+  }
+  list.innerHTML = circles.map((c, idx) => `
+    <div class="circle-item">
+      <div>
+        <strong>${c.name}</strong>
+        <div style="font-size:12px;color:var(--text-secondary)">Members: ${c.members.join(', ')}</div>
+      </div>
+      <button class="action-btn" onclick="deleteCircle(${idx})">Delete</button>
+    </div>
+  `).join('');
+}
+
+// Create new circle
+function createCircle() {
+  const name = document.getElementById('circleName').value.trim();
+  const membersRaw = document.getElementById('circleMembers').value;
+  // Split by comma or space, remove empty, lowercase for consistency
+  const members = membersRaw.split(/[\s,]+/).map(n => n.trim().toLowerCase()).filter(Boolean);
+  if (!name || !members.length) {
+    alert('Please enter a circle name and at least one member.');
+    return;
+  }
+  circles.push({ name, members });
+  localStorage.setItem('circles', JSON.stringify(circles));
+  document.getElementById('circleName').value = '';
+  document.getElementById('circleMembers').value = '';
+  renderCirclesList();
+  renderCircleFilter();
+  renderStoriesList(); // <-- update stories
+}
+
+// Delete circle
+function deleteCircle(idx) {
+  circles.splice(idx, 1);
+  localStorage.setItem('circles', JSON.stringify(circles));
+  renderCirclesList();
+  renderCircleFilter();
+  renderStoriesList(); // <-- update stories
+}
+
+// Render circle filter chips
+function renderCircleFilter() {
+  const filter = document.getElementById('circleFilter');
+  let html = `<div class="filter-chip active" data-circle="all" style="border:2px solid #bbb;">All Posts</div>`;
+  //style="border:0.009px solid ${color};"
+  circles.forEach(c => {
+    const color = getCircleColor(c.name);
+    html += `<div class="filter-chip" data-circle="${c.name}" >${c.name}</div>`;
+  });
+  filter.innerHTML = html;
+}
+renderCircleFilter();
+
+// Filter logic for posts by circle
+document.getElementById('circleFilter').addEventListener('click', function(e) {
+  if (e.target.classList.contains('filter-chip')) {
+    document.querySelectorAll('.filter-chip').forEach(chip => chip.classList.remove('active'));
+    e.target.classList.add('active');
+    currentCircle = e.target.getAttribute('data-circle');
+    fetchFeed();
+  }
+});
+
+// Update fetchFeed to filter by poster name if a circle is selected
+async function fetchFeed() {
+  try {
+    const res = await fetch('../backend/feed.php');
+    let posts = await res.json();
+    const feed = document.getElementById('feed');
+
+    // Filter posts by selected circle (by poster name)
+    if (currentCircle !== "all") {
+      const circle = circles.find(c => c.name === currentCircle);
+      if (circle) {
+        posts = posts.filter(post => circle.members.includes((post.username || '').toLowerCase()));
+      }
+    }
+
+    if (posts.length === 0) {
+      feed.innerHTML = `
+        <div class="empty-state">
+          <i class="fa-solid fa-camera-retro empty-icon"></i>
+          <p class="empty-text">No posts yet! Be the first to share.</p>
+          <a href="upload.html" class="action-link">Upload Post</a>
+        </div>
+      `;
+      return;
+    }
+    feed.innerHTML = '';
+    posts.reverse().forEach(post => {
+      post.comments = Array.isArray(post.comments) ? post.comments : [];
+      post.likes = Array.isArray(post.likes) ? post.likes : [];
+      const postEl = document.createElement('div');
+      postEl.className = 'post';
+      postEl.setAttribute('data-visibility', (post.visibility || []).join(','));
+      postEl.innerHTML = `
+        <div class="post-header">
+          <div class="post-user-info">
+            <div class="post-user-name">${post.username}</div>
+            <div class="post-time">Posted recently</div>
+          </div>
+          <div class="post-more">
+            <i class="fa-solid fa-ellipsis"></i>
+          </div>
+        </div>
+        <div class="post-image-container">
+          ${
+            post.image
+              ? `<img src="../backend/${post.image}" alt="Post by ${post.username}" class="post-image">`
+              : post.video
+                ? `<video class="post-image" controls>
+                     <source src="../backend/${post.video}" type="video/webm">
+                     Your browser does not support the video tag.
+                   </video>`
+                : ''
+          }
+          ${
+            post.image
+              ? `<div class="retake-badge">
+                   <i class="fa-solid fa-arrows-rotate"></i> ${post.retakes || 0} retakes
+                 </div>`
+              : ''
+          }
+        </div>
+        <div class="post-audience">
+          <span class="audience-icon" style="background:${post.visibilityColor || '#ccc'}"></span>
+          <span class="audience-text">${(post.visibility || []).join(', ')}</span>
+        </div>
+        <div class="post-actions">
+          <button class="post-action" onclick="likePost(${post.id})">
+            <i class="fa-${post.likes.includes(getCurrentUser()) ? 'solid' : 'regular'} fa-heart"></i>
+            <span>${post.likes.length}</span>
+          </button>
+          <button class="post-action" onclick="focusComment(${post.id})">
+            <i class="fa-regular fa-comment"></i>
+            <span>${post.comments.length}</span>
+          </button>
+          <button class="post-action" onclick="sharePost(${post.id})">
+            <i class="fa-regular fa-share-from-square"></i>
+          </button>
+        </div>
+        <div class="post-caption">
+          <span class="post-caption-username">${post.username}</span>
+          ${post.caption}
+        </div>
+        <div class="comment-section" id="comments-${post.id}">
+          ${post.comments.map(c => `
+            <div class="comment">
+              <span class="comment-username">${c.username}</span>
+              ${c.comment}
+            </div>
+          `).join('')}
+        </div>
+        <div class="add-comment">
+          <input type="text" id="comment-input-${post.id}" class="comment-input" placeholder="Add a comment..." style="color: black;"/>
+          <button onclick="addComment(${post.id})" class="comment-button">Post</button>
+        </div>
+      `;
+      feed.appendChild(postEl);
+    });
+  } catch (error) {
+    console.error('Error fetching feed:', error);
+    document.getElementById('feed').innerHTML = `
+      <div class="empty-state">
+        <p class="empty-text">Something went wrong. Please try again later.</p>
+      </div>
+    `;
+  }
+}
+
+// Replace your renderStoriesList function with this async version for working story thumbnails
+
+async function renderStoriesList() {
+  const storiesList = document.getElementById('storiesList');
+  let posts = [];
+  try {
+    const res = await fetch('../backend/feed.php');
+    posts = await res.json();
+  } catch (e) {
+    posts = [];
+  }
+
+  // "Your Story" bubble
+  let html = `
+    <div class="story-circle add-story" onclick="openAddStory()">
+      <div class="story-avatar own">
+        <div class="story-image"></div>
+        <div class="add-story-icon">
+          <i class="fa-solid fa-plus"></i>
+        </div>
+      </div>
+      <span class="story-username">Upload Post</span>
+    </div>
+  `;
+
+  // For each circle, find the latest post by a member and use its image/video as thumbnail
+  circles.forEach(c => {
+    const memberPosts = posts
+      .filter(post => Array.isArray(c.members) && c.members.includes((post.username || '').toLowerCase()) && (post.image || post.video))
+      .sort((a, b) => (b.id || 0) - (a.id || 0)); // Newest first
+
+    let thumbHtml = '';
+    if (memberPosts.length) {
+      const latest = memberPosts[0];
+      if (latest.image) {
+        thumbHtml = `<div class="story-image" style="background-image:url('../backend/${latest.image}'); background-size:cover; background-position:center;"></div>`;
+      } else if (latest.video) {
+        thumbHtml = `<div class="story-image" style="background:#222;display:flex;align-items:center;justify-content:center;">
+          <i class="fa-solid fa-play" style="color:#fff;font-size:24px;"></i>
+        </div>`;
+      }
+    } else {
+      thumbHtml = `<div class="story-image" style="background:#eee;"></div>`;
+    }
+
+    // Use getCircleColor for the avatar background
+    const circleColor = getCircleColor(c.name);
+
+    html += `
+      <div class="story-circle" data-circle="${c.name}">
+        <div class="story-avatar" style="background: ${circleColor};">
+          ${thumbHtml}
+        </div>
+        <span class="story-username">${c.name}</span>
+      </div>
+    `;
+  });
+
+  storiesList.innerHTML = html;
+}
+
+// Add this helper function before renderStoriesList
+function getCircleColor(name) {
+  // Assign a color based on the circle name (hash for consistency)
+  const palette = [
+    "#FF375F", // red/pink
+    "#0095f6", // blue
+    "#FFD600", // yellow
+    "#00C48C", // green
+    "#FF8C00", // orange
+    "#9B51E0", // purple
+    "#FF6F00", // amber
+    "#00B8D9", // teal
+    "#FF5630", // coral
+    "#36B37E"  // mint
+  ];
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const idx = Math.abs(hash) % palette.length;
+  return palette[idx];
+}
+
+// Call this after any circle changes and on page load
+window.addEventListener('DOMContentLoaded', () => {
+  renderStoriesList();
+});
+// Call this after any circle changes
+renderStoriesList();
+
+// When a story bubble is clicked, filter feed by that circle
+document.getElementById('storiesList').addEventListener('click', function(e) {
+  const storyCircle = e.target.closest('.story-circle:not(.add-story)');
+  if (storyCircle) {
+    const circleName = storyCircle.getAttribute('data-circle');
+    if (circleName) {
+      // Set filter chip active
+      document.querySelectorAll('.filter-chip').forEach(chip => {
+        chip.classList.remove('active');
+        if (chip.getAttribute('data-circle') === circleName) chip.classList.add('active');
+      });
+      currentCircle = circleName;
+      fetchFeed();
+    }
+  }
+});
+
+// Also update stories list when circles are created/deleted
+function createCircle() {
+  const name = document.getElementById('circleName').value.trim();
+  const membersRaw = document.getElementById('circleMembers').value;
+  const members = membersRaw.split(/[\s,]+/).map(n => n.trim().toLowerCase()).filter(Boolean);
+  if (!name || !members.length) {
+    alert('Please enter a circle name and at least one member.');
+    return;
+  }
+  circles.push({ name, members });
+  localStorage.setItem('circles', JSON.stringify(circles));
+  document.getElementById('circleName').value = '';
+  document.getElementById('circleMembers').value = '';
+  renderCirclesList();
+  renderCircleFilter();
+  renderStoriesList(); // <-- update stories
+}
+
+function deleteCircle(idx) {
+  circles.splice(idx, 1);
+  localStorage.setItem('circles', JSON.stringify(circles));
+  renderCirclesList();
+  renderCircleFilter();
+  renderStoriesList(); // <-- update stories
+}
+
+// Also call renderStoriesList() after page load and after renderCircleFilter()
+window.addEventListener('DOMContentLoaded', () => {
+  renderStoriesList();
+});
+
+// Story viewer functionality
+let currentStoryIndex = 0;
+const storyViewer = document.getElementById('storyViewer');
+const storyUserAvatar = document.getElementById('storyUserAvatar');
+const storyUsername = document.getElementById('storyUsername');
+const storyTime = document.getElementById('storyTime');
+const storyMedia = document.getElementById('storyMedia');
+const storyProgressBar = document.getElementById('storyProgressBar');
+
+function openStoryViewer() {
+  storyViewer.classList.remove('hidden');
+  currentStoryIndex = 0;
+  showStory(currentStoryIndex);
+}
+
+function closeStoryViewer() {
+  storyViewer.classList.add('hidden');
+  storyMedia.innerHTML = ''; // Clear media
+}
+
+function showStory(index) {
+  const circle = circles[currentCircleIndex];
+  if (!circle) return;
+  const story = circle.stories[index];
+  if (!story) return;
+  storyUserAvatar.style.backgroundImage = `url(${story.avatar})`;
+  storyUsername.textContent = story.username;
+  storyTime.textContent = story.time;
+  storyMedia.innerHTML = `
+    ${story.type === 'image' ? `<img src="${story.media}" class="story-image" />` : `<video class="story-video" autoplay loop muted>
+       <source src="${story.media}" type="video/mp4">
+       Your browser does not support the video tag.
+     </video>`}
+  `;
+  updateStoryProgress(index);
+}
+
+function updateStoryProgress(index) {
+  const circle = circles[currentCircleIndex];
+  if (!circle) return;
+  const story = circle.stories[index];
+  if (!story) return;
+  const progress = ((index + 1) / circle.stories.length) * 100;
+  storyProgressBar.style.width = `${progress}%`;
+}
+
+function nextStory() {
+  const circle = circles[currentCircleIndex];
+  if (!circle) return;
+  if (currentStoryIndex < circle.stories.length - 1) {
+    currentStoryIndex++;
+    showStory(currentStoryIndex);
+  } else {
+    closeStoryViewer();
+  }
+}
+
+function previousStory() {
+  const circle = circles[currentCircleIndex];
+  if (!circle) return;
+  if (currentStoryIndex > 0) {
+    currentStoryIndex--;
+    showStory(currentStoryIndex);
+  }
+}
+
+// Open story viewer when a story bubble is clicked
+document.getElementById('storiesList').addEventListener('click', function(e) {
+  const storyCircle = e.target.closest('.story-circle');
+  if (storyCircle && !storyCircle.classList.contains('add-story')) {
+    currentCircleIndex = Array.from(document.querySelectorAll('.story-circle')).indexOf(storyCircle);
+    openStoryViewer();
+  }
+});
+
+// Place this after your renderStoriesList() and after fetchFeed()
+
+let storyPosts = [];
+let currentStoryIdx = 0;
+
+// Helper: Get posts for a circle (by member usernames)
+async function getCirclePosts(circleName) {
+  const circle = circles.find(c => c.name === circleName);
+  if (!circle) return [];
+  const res = await fetch('../backend/feed.php');
+  const posts = await res.json();
+  // Only posts by members of this circle
+  return posts.filter(post => circle.members.includes((post.username || '').toLowerCase()));
+}
+
+// Show a story post in the viewer
+function showStorySlide(idx) {
+  const post = storyPosts[idx];
+  if (!post) return;
+  document.getElementById('storyUsername').textContent = post.username;
+  document.getElementById('storyTime').textContent = "Just now";
+  // Optionally set avatar if you have it
+  // document.getElementById('storyUserAvatar').style.backgroundImage = `url(${post.avatarUrl})`;
+
+  // Set media
+  const mediaDiv = document.getElementById('storyMedia');
+  if (post.image) {
+    mediaDiv.innerHTML = `<img src="../backend/${post.image}" alt="Story" style="max-width:90vw;max-height:80vh;border-radius:12px;background:#222;">`;
+  } else if (post.video) {
+    mediaDiv.innerHTML = `<video src="../backend/${post.video}" controls autoplay style="max-width:90vw;max-height:80vh;border-radius:12px;background:#222;"></video>`;
+  } else {
+    mediaDiv.innerHTML = `<div style="color:#fff">No media</div>`;
+  }
+  // Progress bar
+  document.getElementById('storyProgressBar').style.width = ((idx + 1) / storyPosts.length * 100) + "%";
+}
+
+// Open the story viewer for a circle
+async function openStoryViewerForCircle(circleName) {
+  storyPosts = await getCirclePosts(circleName);
+  if (!storyPosts.length) {
+    alert("No stories in this circle yet!");
+    return;
+  }
+  currentStoryIdx = 0;
+  document.getElementById('storyViewer').classList.remove('hidden');
+  showStorySlide(currentStoryIdx);
+}
+
+// Navigation
+function nextStory() {
+  if (currentStoryIdx < storyPosts.length - 1) {
+    currentStoryIdx++;
+    showStorySlide(currentStoryIdx);
+  } else {
+    closeStoryViewer();
+  }
+}
+function previousStory() {
+  if (currentStoryIdx > 0) {
+    currentStoryIdx--;
+    showStorySlide(currentStoryIdx);
+  }
+}
+function closeStoryViewer() {
+  document.getElementById('storyViewer').classList.add('hidden');
+  document.getElementById('storyMedia').innerHTML = '';
+}
+
+// Attach to story bubbles (circles)
+document.getElementById('storiesList').addEventListener('click', function(e) {
+  const storyCircle = e.target.closest('.story-circle:not(.add-story)');
+  if (storyCircle) {
+    const circleName = storyCircle.getAttribute('data-circle');
+    if (circleName) {
+      openStoryViewerForCircle(circleName);
+    }
+  }
+});
+
+// Make sure your next/prev/close buttons call the correct functions
+// <div class="story-navigation story-nav-prev" onclick="previousStory()"></div>
+// <div class="story-navigation story-nav-next" onclick="nextStory()"></div>
+// <button class="story-control-btn" onclick="closeStoryViewer()">...</button>
+</script>
+<!-- ...existing code... -->
+</body>
+</html>
