@@ -1,0 +1,108 @@
+[
+    {
+        "id": 8,
+        "username": "Clement",
+        "image": "uploads\/photo_682df5490818e9.57352358.png",
+        "caption": "cool",
+        "retakes": 1,
+        "likes": [
+            "682a3a51b0299"
+        ],
+        "comments": []
+    },
+    {
+        "id": 9,
+        "username": "Clement2",
+        "image": "uploads\/photo_682e2eee60a529.24710692.png",
+        "caption": "testy",
+        "retakes": 1,
+        "likes": [
+            1
+        ],
+        "comments": [],
+        "isPrivate": true,
+        "private": true
+    },
+    {
+        "id": 11,
+        "username": "Clement2",
+        "image": "uploads\/photo_682e332b3c6505.71254848.png",
+        "caption": "test",
+        "retakes": 1,
+        "likes": [
+            1
+        ],
+        "comments": []
+    },
+    {
+        "id": 12,
+        "username": "Clement2",
+        "image": "uploads\/photo_682e86ed307ea2.12321185.png",
+        "caption": "green",
+        "retakes": 1,
+        "likes": {
+            "2": "682a3bc7a4020"
+        },
+        "comments": [
+            {
+                "userId": 3,
+                "username": "Clemmm",
+                "comment": "green"
+            },
+            {
+                "userId": 3,
+                "username": "Clemmm",
+                "comment": "tuff"
+            },
+            {
+                "userId": 3,
+                "username": "Clemmm",
+                "comment": "eee"
+            },
+            {
+                "userId": 2,
+                "username": "Clement2",
+                "comment": "yoo"
+            },
+            {
+                "userId": 2,
+                "username": "Clement2",
+                "comment": "testy"
+            },
+            {
+                "userId": 1,
+                "username": "Cl3m",
+                "comment": "coolin"
+            },
+            {
+                "userId": 2,
+                "username": "Clement2",
+                "comment": "tuff"
+            }
+        ]
+    },
+    {
+        "id": 13,
+        "username": "Clement2",
+        "image": "uploads\/photo_68347e1f406209.18140793.png",
+        "caption": "hat",
+        "retakes": 1,
+        "likes": {
+            "1": 2
+        },
+        "comments": [
+            {
+                "userId": 3,
+                "username": "Clemmm",
+                "comment": "cool hat"
+            },
+            {
+                "userId": "682a3bc7a4020",
+                "username": "Cl3m",
+                "comment": "green"
+            }
+        ],
+        "isPrivate": false,
+        "private": false
+    }
+]
