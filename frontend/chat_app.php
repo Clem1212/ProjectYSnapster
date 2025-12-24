@@ -52,41 +52,7 @@ if (isset($_POST['login'])) {
         $_SESSION['user'] = $new_user;
     }
 }
-if (isset($_POST['send_voice']) && isset($_SESSION['user'])) {
-    $to_code = trim($_POST['receiver_code']);
-    $receiver = null;
-    foreach ($users as $u) {
-        if ($u['friend_code'] === $to_code) {
-            $receiver = $u;
-            break;
-        }
-    }
-    if ($receiver && isset($_FILES['voice_data'])) {
-        $voiceFile = $_FILES['voice_data'];
-        $ext = pathinfo($voiceFile['name'], PATHINFO_EXTENSION);
-        $filename = 'voice_' . uniqid() . '.' . $ext;
-        $filepath = 'uploads/' . $filename;
-        if (move_uploaded_file($voiceFile['tmp_name'], $filepath)) {
-            $messages[] = [
-                'from' => $_SESSION['user']['id'],
-                'to' => $receiver['id'],
-                'message' => '',
-                'voice' => $filepath,
-                'sender_name' => $_SESSION['user']['username'],
-                'timestamp' => date("Y-m-d H:i:s"),
-                'type' => 'voice'
-            ];
-            save_messages($messages);
-            echo json_encode(['success' => true]);
-        } else {
-            echo json_encode(['success' => false, 'error' => 'Failed to save voice']);
-        }
-        exit;
-    } else {
-        echo json_encode(['success' => false, 'error' => 'Invalid receiver or voice data']);
-        exit;
-    }
-}
+
 // Handle photo upload
 if (isset($_POST['send_photo']) && isset($_SESSION['user'])) {
     $to_code = trim($_POST['receiver_code']);
@@ -262,6 +228,10 @@ box-shadow: 0 1px 2px gray;
             border-color: #0095f6;
             outline: none;
         }
+footer {
+    background-color: #222; /* or whatever color you want */
+    color: #fff;
+}
 
         button {
             background-color: #0095f6;
@@ -294,6 +264,140 @@ box-shadow: 0 1px 2px gray;
             border-bottom: 2px solid #efefef;
             padding-bottom: 10px;
         }
+        /* Container with breathing room */
+.con {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    max-width: 600px;
+    margin: 20px auto;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 28px; /* High-end rounded corners */
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text-color);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Polished Chat Tabs (User List) */
+.chat-tabs {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    scrollbar-width: none;
+}
+
+.chat-tabs a {
+    padding: 10px 20px;
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.chat-tabs a.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* The Chat Box */
+.chat-box {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 15px;
+    background: var(--bg-color);
+    border-radius: 20px;
+}
+
+/* Gemini-inspired Message Bubbles */
+.message-bubble {
+    max-width: 80%;
+    padding: 12px 18px;
+    font-size: 15px;
+    line-height: 1.4;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+}
+
+.sent {
+    align-self: flex-end;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 20px 20px 4px 20px; /* Squircle style */
+}
+
+.received {
+    align-self: flex-start;
+    background: var(--card-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 20px 20px 20px 4px;
+}
+
+/* Big Image Support */
+.photo-message img {
+    width: 100%;
+    max-width: 300px; /* Made bigger for you */
+    border-radius: 16px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Gemini-style Bottom Input Box */
+.message-input-container {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 30px; /* Pill shape */
+    padding: 6px 16px;
+    gap: 10px;
+}
+
+.message-input-container textarea {
+    flex: 1;
+    border: none !important;
+    background: transparent !important;
+    padding: 10px 0;
+    color: var(--text-color);
+    resize: none;
+    height: 40px;
+    outline: none !important;
+}
+
+.quick-send-btn, .quick-camera-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: transform 0.2s;
+}
+
+.quick-send-btn { background: var(--primary-color); color: white; }
+.quick-camera-btn { background: #ff3040; color: white; }
+
+.quick-send-btn:hover { transform: scale(1.1); }
         .chat-tabs a {
             padding: 8px 16px;
             background: #fafafa;
@@ -547,48 +651,13 @@ box-shadow: 0 1px 2px gray;
         }
       
     </style>
-    <style>@media (min-width: 768px) {
+    <style>
+@media (min-width: 768px) {
   .bottom-nav { 
     display: none !important; /* optional: ensure it wins */ 
   }
 }
 
- .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0; right: 0;
-    background: #fff;
-    border-top: 1px solid #ddd;
-    display: flex;
-    justify-content: space-around;
-    padding: 8px 0;
-    box-shadow: 0 -1px 6px rgba(0,0,0,0.1);
-    z-index: 1000;
-  }
-
-  .bottom-nav .nav-item {
-    flex-grow: 1;
-    text-align: center;
-    font-size: 12px;
-    color: #555;
-    text-decoration: none;
-    font-weight: 600;
-    padding: 4px 0;
-    transition: color 0.3s ease;
-  }
-  .bottom-nav .nav-item:hover,
-  .bottom-nav .nav-item:focus {
-    color: #0095f6;
-  }
-
-  .bottom-nav .nav-item .icon {
-    width: 24px;
-    height: 24px;
-    display: block;
-    margin: 0 auto 3px;
-    stroke-linejoin: round;
-    stroke-linecap: round;
-  }
     .container {
       max-width: 600px;
       margin: 0 auto;
@@ -899,58 +968,53 @@ window.addEventListener('click', (event) => {
         <a href="?logout=1">Logout</a>
     </div><br>
 
-    <form method="POST" id="messageForm">
-        <input type="text" name="receiver_code" id="receiver_code" placeholder="Enter Friend Code to Start Chat" required>
-        <div class="message-input-container" style="border:none;">
-            <textarea name="message" placeholder="Type your message..." required></textarea>
-            <button type="button" class="camera-icon-btn" onclick="openCamera(document.getElementById('receiver_code').value)">
-                <i class="fa-solid fa-camera"></i>
-            </button>
-            
+<form method="POST" id="messageForm">
+    <input type="text" name="receiver_code" id="receiver_code" 
+           value="<?= htmlspecialchars($chat_partner_code) ?>" 
+           placeholder="Enter Friend Code" required 
+           style="border-radius: 15px; margin-bottom: 10px;">
+           
+    <div class="message-input-container">
+        <textarea name="message" placeholder="Type a message..."></textarea>
+        
+        <button type="button" class="quick-camera-btn" 
+                onclick="window.snapCamera.openCapture(document.getElementById('receiver_code').value)">
+            <i class="fa-solid fa-camera"></i>
+        </button>
+        
+        <button type="submit" name="send_message" class="quick-send-btn">
+            <i class="fa-solid fa-paper-plane"></i>
+        </button>
+    </div>
+</form>
 
-            <button type="submit" name="send_message" class="send-btn">
-                <i class="fa-solid fa-paper-plane"></i>
-            </button>
-
-            
-        </div>
-                    <!-- Add this inside .message-input-container, next to the camera button -->
-<button type="button" class="quick-voice-btn" id="voiceRecordBtn" title="Record Voice">
-  <i class="fa-solid fa-microphone"></i>
-</button>
-    </form>
-
-    <?php if (isset($error)): ?>
-        <p class="error"><?= htmlspecialchars($error) ?></p>
+<div class="chat-box">
+    <?php if ($chat_with && !empty($chat_messages)): ?>
+        <?php foreach ($chat_messages as $msg): ?>
+            <?php
+                $is_sent = $msg['from'] === $_SESSION['user']['id'];
+                $bubble_class = $is_sent ? 'sent' : 'received';
+            ?>
+            <div class="message-bubble <?= $bubble_class ?>">
+                <?php if (isset($msg['type']) && $msg['type'] === 'photo'): ?>
+                    <div class="photo-message">
+                        <img src="<?= htmlspecialchars($msg['photo']) ?>" alt="Photo">
+                    </div>
+                <?php endif; ?>
+                
+                <?php if(!empty($msg['message'])): ?>
+                    <p><?= nl2br(htmlspecialchars($msg['message'])) ?></p>
+                <?php endif; ?>
+                
+                <span class="timestamp" style="font-size: 10px; opacity: 0.6;">
+                    <?= date('H:i', strtotime($msg['timestamp'])) ?>
+                </span>
+            </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p style="text-align:center; padding: 20px; opacity: 0.5;">Start a new conversation!</p>
     <?php endif; ?>
-
-    <?php if (!empty($chat_users)): ?>
-        <!-- Update the chat user tab links to include a data-code attribute and add a class for JS -->
-<div class="chat-tabs">
-    <?php foreach ($chat_users as $id => $user): ?>
-        <a href="?chat_with=<?= $id ?>" class="chat-user-link<?= ($chat_with === $id ? ' active' : '') ?>"
-           data-code="<?= htmlspecialchars($user['friend_code']) ?>">
-            <?= htmlspecialchars($user['username']) ?>
-        </a>
-    <?php endforeach; ?>
 </div>
-<script>
-// Auto-fill friend code when clicking username in chat list
-document.querySelectorAll('.chat-user-link').forEach(link => {
-    link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const code = this.getAttribute('data-code');
-        const receiverInput = document.getElementById('receiver_code');
-        if (receiverInput) {
-            receiverInput.value = code;
-            receiverInput.focus();
-        }
-        // Optionally, also switch chat (uncomment next line if you want to load chat)
-        // window.location = this.href;
-    });
-});
-</script>
-    <?php endif; ?>
 
     <div class="chat-box">
         <?php if ($chat_with && !empty($chat_partner_code)): ?>
@@ -968,20 +1032,12 @@ document.querySelectorAll('.chat-user-link').forEach(link => {
                 <div class="message-bubble <?= $bubble_class ?> <?= $message_type === 'photo' ? 'photo-message' : '' ?>">
                     <?php if ($message_type === 'photo' && isset($msg['photo'])): ?>
                         <img src="<?= htmlspecialchars($msg['photo']) ?>" alt="Photo message" style="max-width: 250px; border-radius: 10px;">
-                    <!-- Add this inside .message-input-container, next to the camera button -->
-                    <button type="button" class="voice-icon-btn" id="voiceRecordBtn" title="Record Voice">
-                      <i class="fa-solid fa-microphone"></i>
-                    </button>                    <?php elseif ($message_type === 'voice' && isset($msg['voice'])): ?>
-        <audio controls style="width: 200px;">
-            <source src="<?= htmlspecialchars($msg['voice']) ?>" type="audio/webm">
-            Your browser does not support the audio element.
-        </audio>
-    <?php else: ?>
-        <?= nl2br(htmlspecialchars($msg['message'])) ?>
-    <?php endif; ?>
-    <span class="timestamp"><?= htmlspecialchars($msg['sender_name']) ?> • <?= $msg['timestamp'] ?></span>
-</div>
-<div class="clearfix"></div>
+                    <?php else: ?>
+                        <?= nl2br(htmlspecialchars($msg['message'])) ?>
+                    <?php endif; ?>
+                    <span class="timestamp"><?= htmlspecialchars($msg['sender_name']) ?> • <?= $msg['timestamp'] ?></span>
+                </div>
+                <div class="clearfix"></div>
             <?php endforeach; ?>
         <?php elseif ($chat_with): ?>
             <p>No messages yet. Say hi or send a photo!</p>
@@ -994,31 +1050,55 @@ document.querySelectorAll('.chat-user-link').forEach(link => {
 <?php endif; ?>
 <!-- Place this right before closing </body> tag -->
 
-<nav class="bottom-nav">
-  <a href="feed.html" class="nav-item" aria-label="Home">
-    <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9.75L12 3l9 6.75V21a.75.75 0 01-.75.75H3.75A.75.75 0 013 21V9.75z"/></svg>
-    <span>Home</span>
-  </a>
-  <a href="/frontend/search.php" class="nav-item" aria-label="Search">
-<svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-  <circle cx="11" cy="11" r="7" />
-  <line x1="21" y1="21" x2="16.65" y2="16.65" />
-</svg>
-  <span>Search</span>
+  <div class="bottom-nav">
+
+    <a href="feed.html" class="nav-item">
+
+      <i class="fa-solid fa-home nav-icon"></i>
+
+      <span>Home</span>
+
     </a>
-  <a href="upload.html" class="nav-item" aria-label="Upload">
-    <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v12m0 0l-4-4m4 4l4-4"/><path d="M4 20h16"/></svg>
-    <span>Upload</span>
-  </a>
-  <a href="chat_app.php" class="nav-item" aria-label="Alerts">
-    <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8a6 6 0 10-12 0v4a2 2 0 01-2 2h16a2 2 0 01-2-2v-4z"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-    <span>Messages</span>
-  </a>
-  <a href="/frontend/profile.html" class="nav-item" aria-label="Profile">
-    <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a6.5 6.5 0 0113 0"/></svg>
-    <span>Profile</span>
-  </a>
-</nav>
+
+    <a href="/frontend/search.php" class="nav-item">
+
+      <i class="fa-solid fa-magnifying-glass nav-icon"></i>
+
+      <span>Search</span>
+
+    </a>
+
+    <a href="upload.html" class="nav-item">
+
+      <i class="fa-solid fa-square-plus nav-icon"></i>
+
+      <span>Upload</span>
+
+    </a>
+
+    <a href="chat_app.php" class="nav-item">
+
+      <i class="fa-solid fa-bell nav-icon"></i>
+
+      <span>Messages</span>
+
+    </a>
+
+    <a href="/frontend/profile.html" class="nav-item">
+
+      <i class="fa-solid fa-user nav-icon"></i>
+
+      <span>Profile</span>
+
+    </a>
+
+  </div>
+
+
+
+
+
+
 
 
 <style>
@@ -1792,51 +1872,6 @@ function viewFullSizePhoto(src) {
 // Service Worker for offline functionality (optional)
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js').catch(console.error);
-}
-
-// Voice recording functionality
-let mediaRecorder;
-let audioChunks = [];
-let isRecording = false;
-const voiceBtn = document.getElementById('voiceRecordBtn');
-
-if (voiceBtn) {
-  voiceBtn.addEventListener('click', async () => {
-    if (!isRecording) {
-      // Start recording
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        mediaRecorder = new MediaRecorder(stream);
-        audioChunks = [];
-        mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-        mediaRecorder.onstop = async () => {
-          const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-          const formData = new FormData();
-          formData.append('send_voice', '1');
-          formData.append('receiver_code', document.getElementById('receiver_code').value);
-          formData.append('voice_data', audioBlob, 'voice.webm');
-          try {
-            const response = await fetch('', { method: 'POST', body: formData });
-            const result = await response.json();
-            if (result.success) location.reload();
-            else alert('Failed to send voice: ' + (result.error || 'Unknown error'));
-          } catch (err) {
-            alert('Failed to send voice');
-          }
-        };
-        mediaRecorder.start();
-        isRecording = true;
-        voiceBtn.innerHTML = '<i class="fa-solid fa-stop"></i>';
-      } catch (err) {
-        alert('Microphone access denied.');
-      }
-    } else {
-      // Stop recording
-      mediaRecorder.stop();
-      isRecording = false;
-      voiceBtn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
-    }
-  });
 }
 </script>
 

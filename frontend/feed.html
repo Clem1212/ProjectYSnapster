@@ -6,6 +6,7 @@
   <title>Snapster</title>
     <link rel="icon" type="image/x-icon" href="/image/logo-removebg-preview.png">
 <script src="/frontend/app.js"></script>
+     <link rel="stylesheet" href="/frontend/style.css">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
@@ -24,7 +25,11 @@
       line-height: 1.5;
       padding-bottom: 60px; /* Space for mobile nav */
     }
-    
+    footer {
+    background-color: #222; /* or whatever color you want */
+    color: #fff;
+}
+
    /* theme.css */
 .instagram-theme {
   --bg-color: #fafafa;
@@ -260,7 +265,7 @@ body {
     
     .add-comment {
       display: flex;
-      padding-top: 12px;
+      padding: 12px;
       align-items: center;
     }
     
@@ -323,19 +328,7 @@ body {
       color: white;
     }
     
-    /* Bottom Navigation */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      display: flex;
-      justify-content: space-around;
-      background-color: var(--header-bg);
-      border-top: 1px solid var(--border-color);
-      padding: 10px 0;
-      z-index: 100;
-    }
+  
     
     .nav-item {
       display: flex;

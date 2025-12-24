@@ -5,7 +5,8 @@
     <link rel="icon" type="image/x-icon" href="/image/logo-removebg-preview.png">
     <link rel="stylesheet" href="/frontend/app.js">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
+       <link rel="stylesheet" href="/frontend/style.css">
+
   <style>
     /* Modern Social Media App - Feed Page */
     * {
@@ -498,7 +499,164 @@ body {
   color: white;
 }
 
+.search-page-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px 15px;
+}
 
+.search-bar-wrapper {
+  margin-bottom: 20px;
+}
+
+.search-input-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: var(--input-bg); /* Use your light gray variable */
+  border-radius: 10px;
+  padding: 0 12px;
+  border: 1px solid var(--border-color);
+}
+
+.search-icon-left {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.search-input-inner input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 10px 10px;
+  font-size: 16px;
+  color: var(--text-color);
+  outline: none;
+}
+
+/* Polishing the Results Area */
+.search-results-container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* User Card Style for Results */
+.search-result-user {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(var(--border-color), 0.3);
+}
+
+.search-result-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #eee;
+  margin-right: 12px;
+  object-fit: cover;
+}
+
+.search-result-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-result-username {
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 14px;
+}
+
+.search-result-name {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+
+
+
+
+/* Container with significant padding and gap */
+.search-results {
+  display: grid;
+  /* Larger min-width makes images bigger and reduces columns */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+  gap: 40px; /* Massive space between results for a premium feel */
+  padding: 40px 20px;
+  max-width: 100px;
+  margin: 0 auto;
+}
+
+/* Polished Large Card */
+.polished-search-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 10px; /* Large rounded corners like Gemini/iOS */
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  margin:10px
+}
+
+.polished-search-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  border-color: var(--primary-color);
+}
+
+/* Image that covers the top half/majority of the card */
+.card-image-wrapper {
+  width: 100%;
+  aspect-ratio: 16 / 9; /* Cinematic wide aspect ratio */
+  overflow: hidden;
+  background-color: #f0f0f0;
+}
+
+.card-img-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the image fills the space completely */
+  transition: transform 0.6s ease;
+}
+
+.polished-search-card:hover .card-img-cover {
+  transform: scale(1.08);
+}
+
+/* Text area with generous padding */
+.card-content {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card-user-row {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.card-username {
+  font-weight: 800;
+  font-size: 18px; /* Bigger text */
+  color: var(--text-color);
+  letter-spacing: -0.5px;
+}
+
+.card-caption {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
   </style>
 </head>
 <body >
@@ -533,16 +691,54 @@ body {
     <!--<img id="logo-img" src="/image/border2.png" style="width: 200px; height: auto;">-->
    
   <br>
-  <div class="search-box">
-    <input type="text" id="searchInput" placeholder="Search by username, name, caption, comment..." style="border-radius:8px;">
-    <button onclick="performSearch()" style="background-color: var(--bg-color); color: var(--text-color);border: none; outline: none; font-size:20px; "><i class="fa-solid fa-magnifying-glass"></i></button>
+ <div class="search-page-container">
+  <div class="search-bar-wrapper">
+    <div class="search-input-inner">
+      <i class="fa-solid fa-magnifying-glass search-icon-left"></i>
+      <input type="text" id="searchInput" placeholder="Search" onkeyup="handleSearchKeyUp(event)">
+    </div>
   </div>
 
-  <div class="search-results" id="searchResults">
-    <p>Enter a search term to see results.</p>
+  <div class="search-results-container" id="searchResults">
+    <div class="search-placeholder">
+     
+      <p>Search for friends or posts</p>
+    </div>
   </div>
-
+</div>
   <script>
+    function handleSearchKeyUp(event) {
+    // Trigger search on Enter key
+    if (event.key === "Enter") {
+        performSearch();
+    }
+    
+    // Optional: Real-time search
+    // if (event.target.value.length > 2) performSearch();
+}
+
+function performSearch() {
+    const query = document.getElementById('searchInput').value;
+    const resultsContainer = document.getElementById('searchResults');
+    
+    if (!query) return;
+
+    // Show a loading state
+    resultsContainer.innerHTML = '<div class="loader">Searching...</div>';
+
+    // When you fetch your PHP data, format the result like this:
+    /*
+    resultsContainer.innerHTML = `
+      <div class="search-result-user">
+        <img src="uploads/profile1.jpg" class="search-result-avatar">
+        <div class="search-result-info">
+          <span class="search-result-username">username_here</span>
+          <span class="search-result-name">Display Name</span>
+        </div>
+      </div>
+    `;
+    */
+}
       document.getElementById('logoutBtn').addEventListener('click', () => {
       window.location.href = '../frontend/index.html';
     });
@@ -572,14 +768,21 @@ body {
           resultsDiv.innerHTML = '<p>No results found.</p>';
           return;
         }
+//resultsDiv.innerHTML1
+resultsDiv.innerHTML = filtered.map(post => `
+  <div class="polished-search-card" onclick="window.location.href='feed.html'">
+    <div class="card-image-wrapper">
+      <img src="../backend/${post.image}" class="card-img-cover" loading="lazy">
+    </div>
+    <div class="card-content">
+      <div class="card-user-row">
+        <span class="card-username">@${post.username}</span>
+      </div>
+      <p class="card-caption">${post.caption || 'No caption provided.'}</p>
+    </div>
+  </div>
+`).join('');
 
-        resultsDiv.innerHTML = filtered.map(post => `
-          <div class="result-item">
-            <p class="result-caption">${post.caption || 'No Caption'}</p>
-            <p>By <strong>${post.username}</strong>${post.name ? ` (${post.name})` : ''}</p>
-            <img src="../backend/${post.image}" style="max-width: 100%; border-radius: 6px; margin-top: 8px;">
-          </div>
-        `).join('');
       } catch (err) {
         console.error('Search error:', err);
         resultsDiv.innerHTML = '<p>Error loading results. Try again later.</p>';
@@ -816,6 +1019,23 @@ body {
   padding: 25px 30px;
   text-align: left;
   font-family: 'Segoe UI', sans-serif;
+}
+.search-result:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    transition: all 0.2s ease;
+}
+.search-input {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    margin-bottom: 1rem;
+}
+.search-input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0,123,255,0.3);
 }
 
 .result-item {

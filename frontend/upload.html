@@ -6,6 +6,7 @@
   <title>Snapster</title>
     <link rel="icon" type="image/x-icon" href="/image/logo-removebg-preview.png">
 <script src="/frontend/app.js"></script>
+     <link rel="stylesheet" href="/frontend/style.css">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
@@ -315,19 +316,7 @@
       color: white;
     }
     
-    /* Bottom Navigation */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      display: flex;
-      justify-content: space-around;
-      background-color: var(--header-bg);
-      border-top: 1px solid var(--border-color);
-      padding: 10px 0;
-      z-index: 100;
-    }
+    
     
     .nav-item {
       display: flex;
@@ -510,9 +499,6 @@
   <h2>Take a Photo</h2>
 
   <video id="video" autoplay playsinline width="320" height="240"></video>
-  <button id="switch-camera-btn" class="camera-btn">
-  <i class="fa-solid fa-refresh"></i> Switch Camera
-</button>
   <button id="captureBtn">Capture Photo</button>
   <p>Retakes: <span id="retakeCount">0</span></p>
 
@@ -626,30 +612,14 @@ uploadVideoBtn.onclick = async () => {
 
     let retakeCount = 0;
 
-    let currentFacingMode = "user"; // "user" = front, "environment" = back
-let currentStream = null;
-
-async function startCamera(facingMode = "user") {
-  if (currentStream) {
-    currentStream.getTracks().forEach(track => track.stop());
-  }
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode }
-    });
-    video.srcObject = stream;
-    currentStream = stream;
-  } catch (err) {
-    msg.innerText = "Camera error: " + err.message;
-  }
-}
-
-document.getElementById('switch-camera-btn').onclick = async () => {
-  currentFacingMode = currentFacingMode === "user" ? "environment" : "user";
-  await startCamera(currentFacingMode);
-};
-
-startCamera();
+    // Start camera
+    async function startCamera() {
+     
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        video.srcObject = stream;
+      
+    }
+    startCamera();
 
     captureBtn.onclick = () => {
       const ctx = canvas.getContext('2d');
@@ -817,47 +787,6 @@ function loadFeed() {
       <span>Profile</span>
     </a>
   </div>
-<style>
-  .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0; right: 0;
-    background: #fff;
-    border-top: 1px solid #ddd;
-    display: flex;
-    justify-content: space-around;
-    padding: 8px 0;
-    box-shadow: 0 -1px 6px rgba(0,0,0,0.1);
-    z-index: 1000;
-  }
-
-  .bottom-nav .nav-item {
-    flex-grow: 1;
-    text-align: center;
-    font-size: 12px;
-    color: #555;
-    text-decoration: none;
-    font-weight: 600;
-    padding: 4px 0;
-    transition: color 0.3s ease;
-  }
-  .bottom-nav .nav-item:hover,
-  .bottom-nav .nav-item:focus {
-    color: #0095f6;
-  }
-
-  .bottom-nav .nav-item .icon {
-    width: 24px;
-    height: 24px;
-    display: block;
-    margin: 0 auto 3px;
-    stroke-linejoin: round;
-    stroke-linecap: round;
-  }
-  @media (min-width: 768px) {
-  #switch-camera-btn { display: none; }
-}
-</style>
 
 </body>
 </html>
